@@ -15,9 +15,10 @@ public class PatronAI : MonoBehaviour, PatronInterface
     public enum LineState
     {
         None,
-        orderWait,
+        OrderWait,
         RecieveWait,
-        consumingWait
+        ConsumingWait,
+        Finished
     }
 
     [SerializeField]
@@ -55,17 +56,26 @@ public class PatronAI : MonoBehaviour, PatronInterface
     {
         if (seeker.IsDone())
         {
-            currentState = LineState.orderWait;
+            currentState = LineState.OrderWait;
+            seeker.StartPath(patronTrans.position, PatronManager.Instance.openPoints[lineNumber].position);
+        }
+    }
+
+    private void WaitForItem()
+    {
+        if (seeker.IsDone() && currentState == LineState.OrderWait)
+        {
+            currentState = LineState.RecieveWait;
             seeker.StartPath(patronTrans.position, PatronManager.Instance.openPoints[lineNumber].position);
         }
     }
 
     public void AdvanceLine()
     {
-
-        lineNumber--;
-        if(lineNumber < 0)
-            currentState = LineState.RecieveWait;
+        if (lineNumber < 1)
+            WaitForItem();
+        else
+            lineNumber--;
     }
 
 }

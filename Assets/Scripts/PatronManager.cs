@@ -8,6 +8,9 @@ public class PatronManager : MonoBehaviour
     [SerializeField]
     private List<PatronInterface> Patrons = new();
 
+    [SerializeField]
+    private BoxCollider standArea;
+
     int patronCount = 0;
 
     [SerializeField]
@@ -25,6 +28,7 @@ public class PatronManager : MonoBehaviour
         {
             Destroy(gameObject);
         }
+
     }
 
     private void Start()
@@ -59,4 +63,6 @@ public class PatronManager : MonoBehaviour
         Patrons[patronID - 1].SetLineNumber(linePos);
     }
 
+    //Generates a random spot within the bounds provided
+    public Vector3 GenerateSpot() => new (standArea.transform.position.x - Random.Range(-standArea.bounds.extents.x, standArea.bounds.extents.x), 0, standArea.transform.position.z - Random.Range(-standArea.bounds.extents.z, standArea.bounds.extents.z));
 }
