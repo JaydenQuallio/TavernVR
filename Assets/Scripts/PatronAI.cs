@@ -32,6 +32,7 @@ public class PatronAI : MonoBehaviour, PatronInterface
     private void OnEnable()
     {
         patronTrans = GetComponent<Transform>();
+        PatronManager.Instance.InitialAddToPatronList(this);
     }
 
     private void FixedUpdate()
@@ -57,8 +58,13 @@ public class PatronAI : MonoBehaviour, PatronInterface
         if (seeker.IsDone())
         {
             currentState = LineState.OrderWait;
-            seeker.StartPath(patronTrans.position, PatronManager.Instance.openPoints[lineNumber].position);
+            MoveTo(PatronManager.Instance.openPoints[lineNumber].position);
         }
+    }
+
+    private void MoveTo(Vector3 spotToMove)
+    {
+        seeker.StartPath(patronTrans.position, spotToMove);
     }
 
     private void WaitForItem()
@@ -66,7 +72,7 @@ public class PatronAI : MonoBehaviour, PatronInterface
         if (seeker.IsDone() && currentState == LineState.OrderWait)
         {
             currentState = LineState.RecieveWait;
-            seeker.StartPath(patronTrans.position, PatronManager.Instance.openPoints[lineNumber].position);
+            MoveTo(PatronManager.Instance.GenerateSpot());
         }
     }
 
@@ -75,7 +81,10 @@ public class PatronAI : MonoBehaviour, PatronInterface
         if (lineNumber < 1)
             WaitForItem();
         else
+        {
             lineNumber--;
+            MoveTo(PatronManager.Instance.openPoints[lineNumber].position);
+        }
     }
 
 }

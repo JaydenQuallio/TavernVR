@@ -5,6 +5,7 @@ public class PatronManager : MonoBehaviour
 {
     public List<Transform> openPoints = new();
     public List<Transform> takenPoints = new();
+
     [SerializeField]
     private List<PatronInterface> Patrons = new();
 
@@ -31,19 +32,15 @@ public class PatronManager : MonoBehaviour
 
     }
 
-    private void Start()
+    public void InitialAddToPatronList(PatronInterface patron)
     {
-        MonoBehaviour[] allScripts = FindObjectsOfType<MonoBehaviour>();
-        for (int i = 0; i < allScripts.Length; i++)
-        {
-            if (allScripts[i] is PatronInterface)
-            {
-                Patrons.Add(allScripts[i] as PatronInterface);
-                patronCount++;
-                Patrons[patronCount - 1].SetPatronNumber(patronCount);
-                SetSpot(patronCount, patronCount - 1);
-            }
-        }
+        if (Patrons.Contains(patron))
+            return;
+
+        Patrons.Add(patron);
+        patronCount++;
+        Patrons[patronCount - 1].SetPatronNumber(patronCount);
+        SetSpot(patronCount, patronCount - 1);
     }
 
     private void FixedUpdate()
