@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class GrogManager : MonoBehaviour
@@ -9,15 +10,9 @@ public class GrogManager : MonoBehaviour
     private List<IGrogInterface> Grogs = new();
 
     [SerializeField]
-    private bool IsPouring = false;
-
-    private IGrogInterface currentGrog;
-    private GameObject currentGrogObject;
+    private List<GrogBarrel> Barrels = new();
 
     private Dictionary<GameObject, IGrogInterface> grogsDictionary = new();
-
-    [SerializeField]
-    private DrinkTypes drinkType;
 
     private void Awake()
     {
@@ -41,27 +36,14 @@ public class GrogManager : MonoBehaviour
         grogsDictionary.Add(grogObject, grog);
     }
 
-    private void OnTriggerStay(Collider other)
+    public void AddBarrelToList(GrogBarrel grogBarrel)
     {
-        if (!IsPouring || !other.CompareTag("Grog"))
-        {
+        if (Barrels.Contains(grogBarrel))
             return;
-        }
 
-        Debug.Log(other.gameObject);
-
-        if (currentGrogObject != null)
-        {
-            Debug.Log("Filling");
-            currentGrog.FillGrog(drinkType, .1f * Time.fixedDeltaTime);
-        }
-        else
-        {
-            if (grogsDictionary.ContainsKey(other.gameObject))
-            {
-                currentGrog = grogsDictionary[other.gameObject];
-                currentGrogObject = other.gameObject;
-            }
-        }
+        Barrels.Add(grogBarrel);
+        grogBarrel.SetGrogDictionary(grogsDictionary);
     }
+
+    
 }

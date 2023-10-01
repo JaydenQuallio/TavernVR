@@ -1,7 +1,7 @@
 using UnityEngine;
 using Pathfinding;
 
-public class PatronAI : MonoBehaviour, PatronInterface
+public class PatronAI : MonoBehaviour, IPatronInterface
 {
 
     [SerializeField]

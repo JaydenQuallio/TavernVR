@@ -7,7 +7,7 @@ public class PatronManager : MonoBehaviour
     public List<Transform> takenPoints = new();
 
     [SerializeField]
-    private List<PatronInterface> Patrons = new();
+    private List<IPatronInterface> Patrons = new();
 
     [SerializeField]
     private BoxCollider standArea;
@@ -31,7 +31,7 @@ public class PatronManager : MonoBehaviour
         }
     }
 
-    public void InitialAddToPatronList(PatronInterface patron)
+    public void InitialAddToPatronList(IPatronInterface patron)
     {
         if (Patrons.Contains(patron))
             return;
@@ -47,7 +47,7 @@ public class PatronManager : MonoBehaviour
         if (progressLine)
         {
             progressLine = false;
-            foreach(PatronInterface patron in Patrons)
+            foreach(IPatronInterface patron in Patrons)
             {
                 patron.AdvanceLine();
             }
