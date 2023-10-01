@@ -29,7 +29,6 @@ public class PatronManager : MonoBehaviour
         {
             Destroy(gameObject);
         }
-
     }
 
     public void InitialAddToPatronList(PatronInterface patron)

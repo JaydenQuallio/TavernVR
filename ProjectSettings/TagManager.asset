@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Anchor
   - Attach
+  - Grog
   layers:
   - Default
   - TransparentFX
