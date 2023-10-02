@@ -40,6 +40,16 @@ public class GrogScript : MonoBehaviour, IGrogInterface
         liquidScript.enabled = false;
     }
 
+    private void FixedUpdate()
+    {
+        float tiltAngle = Vector3.Angle(Vector3.up, transform.up);
+
+        if (tiltAngle > 90f)
+        {
+            Debug.Log("Object tilted more than 90 degrs!");
+        }
+    }
+
     public void FillGrog(DrinkTypes drinkType, float fillAmount)
     {
         if(liquidScript.enabled == false)
