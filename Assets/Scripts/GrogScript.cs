@@ -1,4 +1,6 @@
 using System.Collections.Generic;
+using System.IO;
+using System.Net.Http.Headers;
 using UnityEngine;
 
 public class GrogScript : MonoBehaviour, IGrogInterface
@@ -59,8 +61,10 @@ public class GrogScript : MonoBehaviour, IGrogInterface
             foam.Play();
 
         totalLiquid += fillAmount;
-        drinkList[drinkType] += fillAmount;
-        IncreaseLiquid(totalLiquid);
+        
+        //Amount of liquid that is filled
+        liquidScript.SetAmount = Mathf.Lerp(.6f, .45f, totalLiquid);
+        ChangeDrinkColor(drinkType, fillAmount);
     }
 
 
@@ -70,37 +74,23 @@ public class GrogScript : MonoBehaviour, IGrogInterface
             foam.Stop();
     }
 
-    private void IncreaseLiquid(float liquidAmount)
+    private void ChangeDrinkColor(DrinkTypes type, float fillAmount)
     {
-        liquidScript.SetAmount = Mathf.Lerp(.556f, .45f, liquidAmount);
-        ChangeDrinkColor();
-
-    }
-
-    private void ChangeDrinkColor()
-    {
-        if(!hasIntialColor)
+        if (!hasIntialColor)
         {
-            foreach(KeyValuePair<DrinkTypes, float> drink in drinkList)
-            {
-                if (drink.Value > 0)
-                {
-                    if (drinkTypeList.ContainsKey(drink.Key))
-                    {
-                        SetColor(drinkTypeList[drink.Key]);
-                        hasIntialColor = true;
-                    }
-                }
-            }
+            SetColor(drinkTypeList[type]);
+            hasIntialColor = true;
         }
+        
+        drinkList[type] += fillAmount;
 
-        ColorToLerp(bluePotion, drinkList[DrinkTypes.BluePotion]);
-        ColorToLerp(redPotion, drinkList[DrinkTypes.RedPotion]);
-        ColorToLerp(greenPotion, drinkList[DrinkTypes.BluePotion]);
+        ColorToLerp(drinkTypeList[type], drinkList[type] / totalLiquid);
     }
 
     private void ColorToLerp(Material matToChange, float liquidAmount)
     {
+        liquidAmount *= Time.fixedDeltaTime;
+
         tempMat.SetColor("_TopColor", Color.Lerp(tempMat.GetColor("_TopColor"), matToChange.GetColor("_TopColor"), liquidAmount));
         tempMat.SetColor("_BottomColor", Color.Lerp(tempMat.GetColor("_BottomColor"), matToChange.GetColor("_BottomColor"), liquidAmount));
         tempMat.SetColor("_FoamColor", Color.Lerp(tempMat.GetColor("_FoamColor"), matToChange.GetColor("_FoamColor"), liquidAmount));
