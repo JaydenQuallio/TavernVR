@@ -1,12 +1,9 @@
 using System.Collections.Generic;
-using System.IO;
-using System.Net.Http.Headers;
 using UnityEngine;
 
 public class GrogScript : MonoBehaviour, IGrogInterface
 {
     private Dictionary<DrinkTypes, float> drinkList = new();
-    private Dictionary<DrinkTypes, Material> drinkTypeList = new();
 
     [SerializeField]
     private LiquidScript liquidScript;
@@ -15,18 +12,16 @@ public class GrogScript : MonoBehaviour, IGrogInterface
     private float totalLiquid;
 
     [SerializeField]
-    private Material bluePotion, redPotion, greenPotion, tempMat = null;
-
-    [SerializeField]
     private Renderer liquidRenderer;
-
-    [SerializeField]
-    private ParticleSystem foam;
 
     private bool hasIntialColor = false;
 
-    private void Start()
+    private Material tempMat = null;
+    private References references;
+
+    private void Awake()
     {
+        references = References.instance;
         liquidScript.enabled = false;
     }
 
@@ -34,7 +29,7 @@ public class GrogScript : MonoBehaviour, IGrogInterface
     {
         SetPotionStats();
 
-        GrogManager.Instance.AddGrogToList(this, gameObject);
+        GrogManager.instance.AddGrogToList(this, gameObject);
     }
 
     private void OnDisable()
@@ -57,34 +52,24 @@ public class GrogScript : MonoBehaviour, IGrogInterface
         if(liquidScript.enabled == false)
             liquidScript.enabled = true;
 
-        if(!foam.isPlaying)
-            foam.Play();
-
         totalLiquid += fillAmount;
         
         //Amount of liquid that is filled
         liquidScript.SetAmount = Mathf.Lerp(.6f, .45f, totalLiquid);
         ChangeDrinkColor(drinkType, fillAmount);
     }
-
-
-    public void StopGrog()
-    {
-        if (foam.isPlaying)
-            foam.Stop();
-    }
-
+     
     private void ChangeDrinkColor(DrinkTypes type, float fillAmount)
     {
         if (!hasIntialColor)
         {
-            SetColor(drinkTypeList[type]);
+            SetColor(references.GetDrinkMaterial(type));
             hasIntialColor = true;
         }
         
         drinkList[type] += fillAmount;
 
-        ColorToLerp(drinkTypeList[type], drinkList[type] / totalLiquid);
+        ColorToLerp(references.GetDrinkMaterial(type), drinkList[type] / totalLiquid);
     }
 
     private void ColorToLerp(Material matToChange, float liquidAmount)
@@ -106,13 +91,8 @@ public class GrogScript : MonoBehaviour, IGrogInterface
     void SetPotionStats()
     {
         drinkList.Clear();
-        drinkTypeList.Clear();
 
-        drinkTypeList.Add(DrinkTypes.RedPotion, redPotion);
-        drinkTypeList.Add(DrinkTypes.BluePotion, bluePotion);
-        drinkTypeList.Add(DrinkTypes.GreenPotion, greenPotion);
-
-        foreach (KeyValuePair<DrinkTypes, Material> drinkType in drinkTypeList)
+        foreach (KeyValuePair<DrinkTypes, Material> drinkType in references.DrinkTypeList)
         {
             if (drinkList.ContainsKey(drinkType.Key))
             {

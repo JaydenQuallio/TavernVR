@@ -6,7 +6,7 @@ public class GrogBarrel : MonoBehaviour
     private Dictionary<GameObject, IGrogInterface> grogsDictionary = new();
 
     [SerializeField]
-    private DrinkTypes drinkType;
+    private DrinkTypes drinkType, drinkLook;
 
     [SerializeField]
     private bool isPouring = false;
@@ -22,11 +22,23 @@ public class GrogBarrel : MonoBehaviour
     private LineRenderer pourRenderer;
 
     [SerializeField]
-    ParticleSystem splashPart, carbonationPart;
+    private ParticleSystem splashPart, carbonationPart, foamPart;
+
+    private References references;
+
+    [SerializeField]
+    private HingeJoint lever;
+
+    private void Awake()
+    {
+        references = References.instance;
+    }
 
     private void Start()
     {
-        GrogManager.Instance.AddBarrelToList(this);
+        GrogManager.instance.AddBarrelToList(this);
+        splashPart.GetComponent<Renderer>().material = references.GetDrinkMaterial(drinkLook);
+        pourRenderer.GetComponent<Renderer>().material = references.GetDrinkMaterial(drinkLook);
     }
 
     [SerializeField]
@@ -35,36 +47,44 @@ public class GrogBarrel : MonoBehaviour
     [SerializeField]
     private int points = 50;
 
-    private void FixedUpdate()
+    private void Update()
     {
+        if (lever.angle > 0f)
+        {
+            isPouring = false;
+            pourRenderer.enabled = false;
+            splashPart.Stop();
+            carbonationPart.Stop();
+            foamPart.Stop();
+        }
+        else
+        {
+            isPouring = true;
+
+            RaycastHit hit;
+            if (Physics.Raycast(spout.transform.position, transform.TransformDirection(Vector3.down), out hit, 1000f))
+            {
+                DrawLineSine(hit.point);
+
+                foamPart.transform.position = hit.point;
+
+                FillDrink(hit.collider);
+
+                pourRenderer.enabled = true;
+                splashPart.Play();
+                carbonationPart.Play();
+                foamPart.Play();
+            }
+        }
     }
 
-    private void OnTriggerEnter(Collider other)
+    private void FillDrink(Collider other)
     {
-        if (!isPouring || !other.CompareTag("Drink"))
-        {
-            return;
-        }
-
-        pourRenderer.enabled = true;
-        splashPart.Play();
-        carbonationPart.Play();
-
-    }
-
-    private void OnTriggerStay(Collider other)
-    {
-        if (!isPouring || !other.CompareTag("Drink"))
-        {
-            return;
-        }
-
-        DrawLineSine(other.transform.position);
-
         if (currentGrogObject == other.gameObject)
         {
-            Debug.Log("Filling");
-            currentGrog.FillGrog(drinkType, .1f * Time.fixedDeltaTime);
+            float tempAmount = Mathf.Lerp(.05f, .2f, -lever.angle);
+
+            currentGrog.FillGrog(drinkType, tempAmount * Time.fixedDeltaTime);
         }
         else
         {
@@ -94,24 +114,6 @@ public class GrogBarrel : MonoBehaviour
             pourRenderer.SetPosition(currentPoint, new Vector3(y, x, 0));
         } 
     } 
-
-    private void OnTriggerExit(Collider other)
-    {
-        if (!other.CompareTag("Drink"))
-        {
-            return;
-        }
-        
-        pourRenderer.enabled = false;
-        splashPart.Stop();
-        carbonationPart.Stop();
-
-        if (currentGrogObject == other.gameObject)
-        {
-            Debug.Log("Done Pouring");
-            currentGrog.StopGrog();
-        }
-    }
 
     public void SetGrogDictionary(Dictionary<GameObject, IGrogInterface> dictionary)
     {

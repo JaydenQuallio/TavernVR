@@ -1,6 +1,9 @@
 public enum DrinkTypes
 {
     RedPotion,
+    RedStatic,
     BluePotion,
-    GreenPotion
+    BlueStatic,
+    GreenPotion,
+    GreenStatic
 }

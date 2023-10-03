@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class GrogManager : MonoBehaviour
 {
-    public static GrogManager Instance { get; private set; }
+    public static GrogManager instance { get; private set; }
 
     [SerializeField]
     private List<IGrogInterface> Grogs = new();
@@ -16,9 +16,9 @@ public class GrogManager : MonoBehaviour
 
     private void Awake()
     {
-        if (Instance == null)
+        if (instance == null)
         {
-            Instance = this;
+            instance = this;
         }
         else
         {
