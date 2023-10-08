@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class OrderScript : MonoBehaviour
+public class OrderScript : MonoBehaviour, IOrderInterface
 {
 
     [SerializeField]
@@ -8,6 +8,22 @@ public class OrderScript : MonoBehaviour
 
     [SerializeField]
     private Rigidbody rb;
+
+    private int orderNum = 0;
+
+    private IPatronInterface patron; 
+
+    private void OnEnable()
+    {
+        PatronManager.Instance.InitialAddToOrderList(this);
+    }
+
+    public void SetOrder(int orderNumber, IPatronInterface patronInterface)
+    {
+        orderNum = orderNumber;
+        patron = patronInterface;
+        Debug.Log("Ordered");
+    }
 
     private void Update()
     {

@@ -5,6 +5,6 @@ using UnityEngine;
 public interface IPatronInterface
 {
     void SetPatronNumber(int pos);
-    void SetLineNumber(int pos);
     void AdvanceLine();
+    void SetLineDictionary(Dictionary<int, Transform> dictionary);
 }
