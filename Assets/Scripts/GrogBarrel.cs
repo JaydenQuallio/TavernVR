@@ -46,7 +46,7 @@ public class GrogBarrel : MonoBehaviour
 
     private void Update()
     {
-        if (lever.angle > 0f)
+        if (lever.angle >= 0f)
         {
             pourRenderer.enabled = false;
             splashPart.Stop();

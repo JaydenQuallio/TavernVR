@@ -6,6 +6,7 @@ public class TrayScript : MonoBehaviour
     {
         if (other.CompareTag("Drink"))
         {
+            other.transform.GetComponent<Rigidbody>().isKinematic = true;
             other.transform.SetParent(transform, true);
         }
     }
@@ -14,6 +15,7 @@ public class TrayScript : MonoBehaviour
     {
         if (other.CompareTag("Drink"))
         {
+            other.transform.GetComponent<Rigidbody>().isKinematic = false;
             other.transform.SetParent(null, true);
         }
     }
