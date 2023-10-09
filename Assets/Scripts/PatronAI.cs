@@ -1,6 +1,5 @@
 using UnityEngine;
 using Pathfinding;
-using System.Collections.Generic;
 
 public class PatronAI : MonoBehaviour, IPatronInterface
 {
@@ -20,20 +19,8 @@ public class PatronAI : MonoBehaviour, IPatronInterface
     
     private bool isInPlace = false;
 
-    private Dictionary<int, Transform> LinePoints = new();
-
-    public enum LineState
-    {
-        None,
-        Wandering,
-        OrderWait,
-        RecieveWait,
-        ConsumingWait,
-        Finished
-    }
-
     [SerializeField]
-    private LineState currentState;
+    private PlayerStates currentState;
 
     private void Awake()
     {
@@ -42,7 +29,7 @@ public class PatronAI : MonoBehaviour, IPatronInterface
 
     private void Start()
     {
-        currentState = LineState.None;
+        currentState = PlayerStates.None;
         chanceMod = patronManager.ChanceModifier;
     }
 
@@ -54,46 +41,35 @@ public class PatronAI : MonoBehaviour, IPatronInterface
 
     private void FixedUpdate()
     {
-        if (currentState == LineState.None || currentState == LineState.Wandering)
+        if (currentState == PlayerStates.None || currentState == PlayerStates.Wandering)
         {
+            timeToSearch += Time.fixedDeltaTime;
             GoInside();
         }
     }
 
     public void GoInside()
     {
-        timeToSearch += Time.fixedDeltaTime;
-
         if (timeToSearch < maxTimeToSearch)
         {
             Wander();
         }
         else
         {
-            if (patronManager.openPoints.Count > 0)
-            {
-                ChanceToEnter();
-            }
-        }
-    }
-
-    // Calculates the chance that the AI goes inside to order
-    private void ChanceToEnter()
-    {
-        float temp = Random.Range(0f, 10f) * chanceMod;
-
-        if (temp > 5f)
-        {
-            GetInLine();
-        }
-        else
-        {
-            timeToSearch = 0;
+            AddToList();
+            //if (Random.Range(0f, 10f) * chanceMod > 5f)
+            //{
+            //    AddToList();
+            //}
+            //else
+            //{
+            //    timeToSearch = 0;
+            //}
         }
     }
 
     [SerializeField]
-    int postToMove = 0;
+    int postToMove = -1;
     [SerializeField]
     float timeToWait = 1f;
 
@@ -101,94 +77,75 @@ public class PatronAI : MonoBehaviour, IPatronInterface
     {
         if (timeToWait < 0f)
         {
-            if (!isInPlace && currentState == LineState.None)
+            if (!isInPlace && currentState == PlayerStates.None)
             {
-                postToMove = Random.Range(0, patronManager.roamingPoints.Count);
-                MoveTo(patronManager.roamingPoints[postToMove].position);
-                currentState = LineState.Wandering;
+                ChooseRandomRoamingPoint();
             }
-            else if (currentState == LineState.Wandering && !isInPlace)
+            else if (currentState == PlayerStates.Wandering && !isInPlace)
             {
-                Debug.Log(Vector3.Distance(transform.position, patronManager.roamingPoints[postToMove].position) < 1f);
-                if (Vector3.Distance(transform.position, patronManager.roamingPoints[postToMove].position) < 1f)
-                {
-                    isInPlace = true;
-                    currentState = LineState.None;
-                }
+                CheckIfInPlace();
             }
             else
             {
-                timeToWait = Random.Range(2f, 5f);
-                isInPlace = false;
+                SetRandomWaitTime();
             }
         }
         else
+        {
             timeToWait -= Time.fixedDeltaTime;
+        }
+    }
 
+    private void ChooseRandomRoamingPoint()
+    {
+        postToMove = Random.Range(0, patronManager.GetRoamingPoints());
+        MoveTo(patronManager.RoamingPointIndex(postToMove).position);
+        currentState = PlayerStates.Wandering;
+    }
 
+    private void CheckIfInPlace()
+    {
+        if (Vector3.Distance(transform.position, patronManager.RoamingPointIndex(postToMove).position) < 1f)
+        {
+            isInPlace = true;
+            currentState = PlayerStates.None;
+        }
+    }
+
+    private void SetRandomWaitTime()
+    {
+        timeToWait = Random.Range(2f, 5f);
+        isInPlace = false;
     }
 
     // Sets the AI's number
-    public void SetPatronNumber(int pos)
+    public void SetPatronNumber(int pos) => patronNumber = pos;
+    
+    // When called make the AI get in line and set their active state to waiting for their order
+    private void AddToList() => patronManager.AddPlayerToLine(this);
+
+    // Method used to move AI the positions
+    public void MoveTo(Vector3 spotToMove) => seeker.StartPath(patronTrans.position, spotToMove);
+
+    public void SetOrderState(PlayerStates state) => currentState = state;
+    public PlayerStates GetOrderState() => currentState;
+
+    // When the AI is put into OrderWait State they will find a random spot to stand
+    public void WaitForItem()
     {
-        patronNumber = pos;
+        if (currentState == PlayerStates.OrderWait && seeker.IsDone() && nextPos < 0)
+        {
+            SetOrderState(PlayerStates.RecieveWait);
+            MoveTo(patronManager.GenerateSpot());
+        }
     }
 
-    // Sets the AI's position in line
-    private void SetLineNumber(int pos)
+    public void SetLineNumber(int pos)
     {
         lineNumber = pos;
         nextPos = pos - 1;
     }
 
-    // When called make the AI get in line and set their active state to waiting for their order
-    private void GetInLine()
-    {
-        currentState = LineState.OrderWait;
-        SetLineNumber(patronManager.openPoints[0]);
-        patronManager.CloseSpot(patronManager.openPoints[0]);
-        MoveTo(LinePoints[lineNumber].position);
-    }
-
-    // Method used to move AI the positions
-    private void MoveTo(Vector3 spotToMove)
-    {
-        seeker.StartPath(patronTrans.position, spotToMove);
-    }
-
-    // When the AI is put into OrderWait State they will find a random spot to stand
-    private void WaitForItem()
-    {
-        if (currentState == LineState.RecieveWait && seeker.IsDone())
-        {
-            MoveTo(patronManager.GenerateSpot());
-        }
-    }
-
-    // Makes the AI move to the next spot
-    // If their number is at the end of spots move the AI to waiting area
-    public void AdvanceLine()
-    {
-        if (currentState != LineState.OrderWait)
-        {
-            return;
-        }
-
-        if (nextPos < 0)
-        {
-            patronManager.OpenSpot(lineNumber);
-            currentState = LineState.RecieveWait;
-            WaitForItem();
-        }
-        else
-        {
-            patronManager.CloseSpot(nextPos);
-            patronManager.OpenSpot(lineNumber);
-            SetLineNumber(nextPos);
-            MoveTo(LinePoints[lineNumber].position);
-        }
-    }
-
-    public void SetLineDictionary(Dictionary<int, Transform> dictionary) => LinePoints = dictionary;
-    
+    public int GetLineNumber() => lineNumber;
+    public int GetNextPos() => nextPos;
 }

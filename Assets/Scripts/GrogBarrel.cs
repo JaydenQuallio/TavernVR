@@ -8,9 +8,6 @@ public class GrogBarrel : MonoBehaviour
     [SerializeField]
     private DrinkTypes drinkType, drinkLook;
 
-    [SerializeField]
-    private bool isPouring = false;
-    
     private GameObject currentGrogObject;
 
     [SerializeField]
@@ -51,7 +48,6 @@ public class GrogBarrel : MonoBehaviour
     {
         if (lever.angle > 0f)
         {
-            isPouring = false;
             pourRenderer.enabled = false;
             splashPart.Stop();
             carbonationPart.Stop();
@@ -59,8 +55,6 @@ public class GrogBarrel : MonoBehaviour
         }
         else
         {
-            isPouring = true;
-
             RaycastHit hit;
             if (Physics.Raycast(spout.transform.position, transform.TransformDirection(Vector3.down), out hit, 1000f))
             {

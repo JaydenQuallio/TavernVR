@@ -4,7 +4,12 @@ using UnityEngine;
 
 public interface IPatronInterface
 {
+    void SetOrderState(PlayerStates state);
+    PlayerStates GetOrderState();
+    void MoveTo(Vector3 spotToMove);
     void SetPatronNumber(int pos);
-    void AdvanceLine();
-    void SetLineDictionary(Dictionary<int, Transform> dictionary);
+    void SetLineNumber(int pos);
+    int GetLineNumber();
+    void WaitForItem();
+    int GetNextPos();
 }

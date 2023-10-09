@@ -1,20 +1,24 @@
 using System.Collections.Generic;
+using System.Linq;
 using Sirenix.OdinInspector;
 using UnityEngine;
 
 public class PatronManager : SerializedMonoBehaviour
 {
     [SerializeField]
-    public Dictionary<int, Transform> LinePoints = new();
+    private Dictionary<int, Transform> LinePoints = new();
 
-    public List<int> openPoints = new();
-    public List<int> takenPoints = new();
-    public List<Transform> roamingPoints = new();
+    // Points to walk to
+    private List<int> walkingPoints = new();
 
     [SerializeField]
-    private List<IPatronInterface> Patrons = new();
-    private List<IOrderInterface> Orders = new();
+    private List<Transform> roamingPoints = new();
 
+    // Interfaces
+    private List<IOrderInterface> Orders = new();
+    private List<IPatronInterface> Patrons = new();
+    private List<IPatronInterface> QueuedInLine = new();
+    private List<IPatronInterface> playersInLine = new();
 
     [SerializeField]
     private BoxCollider standArea;
@@ -28,7 +32,7 @@ public class PatronManager : SerializedMonoBehaviour
     private void Awake()
     {
         if (Instance == null)
-        {
+        { 
             Instance = this;
         }
         else
@@ -36,9 +40,48 @@ public class PatronManager : SerializedMonoBehaviour
             Destroy(gameObject);
         }
 
-        foreach(KeyValuePair<int, Transform> kvp in LinePoints)
+        foreach (KeyValuePair<int, Transform> kvp in LinePoints)
         {
-            openPoints.Add(kvp.Key);
+            walkingPoints.Add(kvp.Key);
+        }
+    }
+
+    private void FixedUpdate()
+    {
+        if(walkingPoints.Count > 0)
+        {
+            foreach(int point in walkingPoints.ToArray())
+            {
+                if (QueuedInLine.Count <= 0)
+                    continue;
+
+                QueuedInLine[0].SetOrderState(PlayerStates.OrderWait);
+                QueuedInLine[0].SetLineNumber(point);
+                QueuedInLine[0].MoveTo(LinePoints[QueuedInLine[0].GetLineNumber()].position);
+                CloseSpot(0);
+                walkingPoints.Remove(point);
+            }
+        }
+    }
+
+    private void CloseSpot(int spot)
+    {
+        playersInLine.Add(QueuedInLine[spot]);
+        QueuedInLine.Remove(QueuedInLine[spot]);
+    }
+
+    private void OpenSpots()
+    {
+        int open = LinePoints.Count - playersInLine.Count;
+
+        for (int i = 0; i < open; i++)
+        {
+            if (!walkingPoints.Contains((LinePoints.Count - 1) - i))
+            {
+                walkingPoints.Add((LinePoints.Count - 1) - i);
+                walkingPoints = walkingPoints.OrderBy(num => num).ToList();
+                Debug.Log("TEst");
+            }
         }
     }
 
@@ -59,7 +102,12 @@ public class PatronManager : SerializedMonoBehaviour
 
         patronCount++;
         Patrons[patronCount - 1].SetPatronNumber(patronCount);
-        Patrons[patronCount - 1].SetLineDictionary(LinePoints);
+    }
+
+    public void AddPlayerToLine(IPatronInterface player)
+    {
+        if(!QueuedInLine.Contains(player))
+            QueuedInLine.Add(player);
     }
 
     public void UpdateOrderInfo(IPatronInterface patron, IOrderInterface order, int orderNumber)
@@ -72,26 +120,23 @@ public class PatronManager : SerializedMonoBehaviour
     [Button]
     public void ProgressLine()
     {
-        foreach (IPatronInterface patron in Patrons)
+        if(playersInLine.Count < 1)
+            return;
+
+        playersInLine[0].WaitForItem();
+        playersInLine.RemoveAt(0);
+
+        foreach (IPatronInterface player in playersInLine)
         {
-            patron.AdvanceLine();
+            player.SetLineNumber(player.GetNextPos());
+            player.MoveTo(LinePoints[player.GetLineNumber()].position);
         }
+
+        OpenSpots();
     }
 
-    // Removes the point from the openPoints list to not let any other point move there
-    public void CloseSpot(int pointPos)
-    {
-        openPoints.Remove(pointPos);
-        //takenPoints.Add(pointPos);
-    }
-
-    // Takes int and adds it back to the openPoints list and sorts them to make sure they stay in order
-    public void OpenSpot(int pointPos)
-    {
-        //takenPoints.Remove(pointPos);
-        openPoints.Add(pointPos);
-        openPoints.Sort();
-    }
+    public int GetRoamingPoints() => roamingPoints.Count;
+    public Transform RoamingPointIndex(int point) => roamingPoints[point];
 
     // Generates a random spot within the bounds provided
     public Vector3 GenerateSpot() => new(standArea.transform.position.x - Random.Range(-standArea.bounds.extents.x, standArea.bounds.extents.x), 0, standArea.transform.position.z - Random.Range(-standArea.bounds.extents.z, standArea.bounds.extents.z));

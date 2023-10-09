@@ -7,3 +7,13 @@ public enum DrinkTypes
     GreenPotion,
     GreenStatic
 }
+
+public enum PlayerStates
+{
+    None,
+    Wandering,
+    OrderWait,
+    RecieveWait,
+    ConsumingWait,
+    Finished
+}
