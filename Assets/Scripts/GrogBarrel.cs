@@ -44,6 +44,8 @@ public class GrogBarrel : MonoBehaviour
     [SerializeField]
     private int points = 50;
 
+    private AnimationCurve curve = new();
+
     private void Update()
     {
         if (lever.angle >= 0f)
@@ -55,6 +57,8 @@ public class GrogBarrel : MonoBehaviour
         }
         else
         {
+            curve = AnimationCurve.EaseInOut(0f, Mathf.Lerp(0f, .33f, lever.angle / lever.limits.min), 1f, Mathf.Lerp(0f, .2f, lever.angle / lever.limits.min));
+            pourRenderer.widthCurve = curve;
             RaycastHit hit;
             if (Physics.Raycast(spout.transform.position, transform.TransformDirection(Vector3.down), out hit, 1000f))
             {
@@ -65,6 +69,7 @@ public class GrogBarrel : MonoBehaviour
                 FillDrink(hit.collider);
 
                 pourRenderer.enabled = true;
+
                 splashPart.Play();
                 carbonationPart.Play();
                 foamPart.Play();
