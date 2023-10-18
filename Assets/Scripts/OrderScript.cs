@@ -41,7 +41,6 @@ public class OrderScript : MonoBehaviour, IOrderInterface
         RaycastHit hit;
         if (Physics.Raycast(stickPoint.transform.position, stickPoint.TransformDirection(Vector3.down), out hit, .02f, ~avoidLayer))
         {
-            Debug.Log(hit.collider.name);
             if (transform.parent != hit.transform)
             {
                 transform.SetParent(hit.transform);

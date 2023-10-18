@@ -17,3 +17,17 @@ public enum PlayerStates
     ConsumingWait,
     Finished
 }
+
+public enum ContainerTypes
+{
+    Grog,
+    Bottle
+}
+
+public enum DrinkModifiers
+{
+    None,
+    Extra,
+    Add,
+    Remove
+}

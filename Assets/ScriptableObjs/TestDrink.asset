@@ -9,6 +9,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cf3323a2a918c5c40b08efb2226b61be, type: 3}
-  m_Name: Hapyp
+  m_Script: {fileID: 11500000, guid: 4f44aadf09f668549ad7be3f3777294f, type: 3}
+  m_Name: TestDrink
   m_EditorClassIdentifier: 
+  drinkName: Test
+  container: 0
+  modifer: 0
+  red: 0.33
+  green: 0.2
+  blue: 0.47
