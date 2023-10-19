@@ -1,4 +1,5 @@
 using UnityEngine;
+using System.Collections.Generic;
 
 public class OrderScript : MonoBehaviour, IOrderInterface
 {
@@ -10,9 +11,6 @@ public class OrderScript : MonoBehaviour, IOrderInterface
     private Rigidbody rb;
 
     [SerializeField]
-    private Collider noteCollider;
-
-    [SerializeField]
     private LayerMask avoidLayer;
 
     private int orderNum = 0;
@@ -20,6 +18,11 @@ public class OrderScript : MonoBehaviour, IOrderInterface
     private IPatronInterface patron; 
 
     private bool isPickedUp = false;
+
+    [SerializeField]
+    private OrderScriptable order;
+
+    private List<IGrogInterface> drinks = new List<IGrogInterface>();
 
     private void OnEnable()
     {
@@ -45,21 +48,31 @@ public class OrderScript : MonoBehaviour, IOrderInterface
             {
                 transform.SetParent(hit.transform);
                 rb.isKinematic = true;
-                noteCollider.enabled = false;
+                GetDrinks(hit.transform.gameObject);
             }
         }
         else
         {
             transform.SetParent(null);
             rb.isKinematic = false;
-            noteCollider.enabled = true;
-
-        }
+            drinks.Clear();
+        } 
 
         Debug.DrawRay(stickPoint.position, stickPoint.TransformDirection(Vector3.down), Color.red, .02f);
     }
 
     public void OnPickUp() => isPickedUp = true;
     public void OnDropped() => isPickedUp = false;
+
+    private void GetDrinks(GameObject parent)
+    {
+        foreach(GameObject obj in parent.GetComponents<GameObject>())
+        {
+            if (obj.CompareTag("Drink"))
+            {
+                drinks.Add(obj.GetComponent<IGrogInterface>());
+            }
+        }
+    }
 
 }

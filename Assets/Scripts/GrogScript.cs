@@ -102,4 +102,13 @@ public class GrogScript : MonoBehaviour, IGrogInterface
         }
     }
 
+    public float GetDrinkType()
+    {
+        foreach(KeyValuePair<DrinkTypes, float> kp in drinkList)
+        {
+            return kp.Value;
+        }
+        return 0;
+    }
+
 }

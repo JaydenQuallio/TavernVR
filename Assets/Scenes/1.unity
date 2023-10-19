@@ -1673,7 +1673,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2f3a57c18bdfc1f4fad3f286319424c4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  test: {fileID: 11400000, guid: a7623da400198c544a21463c51cd4aef, type: 2}
   Barrels: []
 --- !u!114 &313256155
 MonoBehaviour:
@@ -7456,10 +7455,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   stickPoint: {fileID: 1166995951}
   rb: {fileID: 1382095516}
-  noteCollider: {fileID: 1382095514}
   avoidLayer:
     serializedVersion: 2
     m_Bits: 840
+  order: {fileID: 11400000, guid: a7623da400198c544a21463c51cd4aef, type: 2}
 --- !u!1 &1432635664
 GameObject:
   m_ObjectHideFlags: 0
