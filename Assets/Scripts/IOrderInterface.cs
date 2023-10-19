@@ -4,5 +4,7 @@ using UnityEngine;
 
 public interface IOrderInterface 
 {
-    void SetOrder(int orderNum, IPatronInterface patron); 
+    void SetOrder(int orderNum, IPatronInterface patron);
+    void GetDrinks(GameObject gameObject);
+    void ClearDrinks();
 }

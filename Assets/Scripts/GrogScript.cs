@@ -1,8 +1,10 @@
 using System.Collections.Generic;
+using Sirenix.OdinInspector;
 using UnityEngine;
 
-public class GrogScript : MonoBehaviour, IGrogInterface
+public class GrogScript : SerializedMonoBehaviour, IGrogInterface
 {
+    [ShowInInspector]
     private Dictionary<DrinkTypes, float> drinkList = new();
 
     [SerializeField]
@@ -111,4 +113,8 @@ public class GrogScript : MonoBehaviour, IGrogInterface
         return 0;
     }
 
+    public Vector3 GetDrink()
+    {
+        return Vector3.zero;
+    }
 }
