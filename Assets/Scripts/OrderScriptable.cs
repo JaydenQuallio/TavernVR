@@ -5,8 +5,6 @@ public class OrderScriptable : ScriptableObject
 {
     public string drinkName;
 
-    public ContainerTypes container;
-    
     public DrinkModifiers modifer;
 
     public float red, green, blue;

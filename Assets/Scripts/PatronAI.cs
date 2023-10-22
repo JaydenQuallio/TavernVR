@@ -56,15 +56,14 @@ public class PatronAI : MonoBehaviour, IPatronInterface
         }
         else
         {
-            AddToList();
-            //if (Random.Range(0f, 10f) * chanceMod > 5f)
-            //{
-            //    AddToList();
-            //}
-            //else
-            //{
-            //    timeToSearch = 0;
-            //}
+            if (Random.Range(0f, 10f) * chanceMod > 5f)
+            {
+                AddToList();
+            }
+            else
+            {
+                timeToSearch = 0;
+            }
         }
     }
 

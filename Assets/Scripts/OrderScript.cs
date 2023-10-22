@@ -13,6 +13,9 @@ public class OrderScript : SerializedMonoBehaviour, IOrderInterface
     [SerializeField]
     private LayerMask avoidLayer;
 
+    [SerializeField]
+    private Transform notesParent;
+
     private int orderNum = 0;
 
     private IPatronInterface patron;
@@ -54,7 +57,7 @@ public class OrderScript : SerializedMonoBehaviour, IOrderInterface
         }
         else
         {
-            transform.SetParent(null);
+            transform.SetParent(notesParent);
             rb.isKinematic = false;
             drinks.Clear();
         }

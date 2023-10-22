@@ -53,15 +53,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 93abd82245b736b4ebcd3ec09fd2af00, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0.1165
+      value: -0.1516
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 93abd82245b736b4ebcd3ec09fd2af00, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 1.111
+      value: 1.424
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 93abd82245b736b4ebcd3ec09fd2af00, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0.2525
+      value: 0.6678
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 93abd82245b736b4ebcd3ec09fd2af00, type: 3}
       propertyPath: m_LocalRotation.w
@@ -371,9 +371,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3ee41e68f1c0dd44dad65fb49c4926f8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects: []
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes: []
   liquidScript: {fileID: 8935394633427419886}
   totalLiquid: 0
   liquidRenderer: {fileID: 8004255172284475618}
+  container: 0
 --- !u!1 &1642145843604249367 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: -8315695510981640877, guid: 93abd82245b736b4ebcd3ec09fd2af00, type: 3}

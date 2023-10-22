@@ -16,6 +16,9 @@ public class GrogScript : SerializedMonoBehaviour, IGrogInterface
     [SerializeField]
     private Renderer liquidRenderer;
 
+    [SerializeField]
+    private ContainerTypes container;
+
     private bool hasIntialColor = false;
 
     private Material tempMat = null;
