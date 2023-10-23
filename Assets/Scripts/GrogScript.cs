@@ -107,17 +107,8 @@ public class GrogScript : SerializedMonoBehaviour, IGrogInterface
         }
     }
 
-    public float GetDrinkType()
-    {
-        foreach(KeyValuePair<DrinkTypes, float> kp in drinkList)
-        {
-            return kp.Value;
-        }
-        return 0;
-    }
-
     public Vector3 GetDrink()
     {
-        return Vector3.zero;
+        return new Vector3(drinkList[DrinkTypes.RedPotion], drinkList[DrinkTypes.GreenPotion], drinkList[DrinkTypes.BluePotion]);
     }
 }

@@ -32,7 +32,7 @@ public class PatronManager : SerializedMonoBehaviour
     private void Awake()
     {
         if (Instance == null)
-        { 
+        {
             Instance = this;
         }
         else
@@ -48,9 +48,9 @@ public class PatronManager : SerializedMonoBehaviour
 
     private void FixedUpdate()
     {
-        if(walkingPoints.Count > 0)
+        if (walkingPoints.Count > 0)
         {
-            foreach(int point in walkingPoints.ToArray())
+            foreach (int point in walkingPoints.ToArray())
             {
                 if (QueuedInLine.Count <= 0)
                     continue;
@@ -106,21 +106,15 @@ public class PatronManager : SerializedMonoBehaviour
 
     public void AddPlayerToLine(IPatronInterface player)
     {
-        if(!QueuedInLine.Contains(player))
+        if (!QueuedInLine.Contains(player))
             QueuedInLine.Add(player);
-    }
-
-    public void UpdateOrderInfo(IPatronInterface patron, IOrderInterface order, int orderNumber)
-    {
-        patron.SetPatronNumber(orderNumber);
-        order.SetOrder(orderNumber, patron);
     }
 
     // Method used to progress the line when needed
     [Button]
     public void ProgressLine()
     {
-        if(playersInLine.Count < 1)
+        if (playersInLine.Count < 1)
             return;
 
         playersInLine[0].WaitForItem();
@@ -142,4 +136,7 @@ public class PatronManager : SerializedMonoBehaviour
     public Vector3 GenerateSpot() => new(standArea.transform.position.x - Random.Range(-standArea.bounds.extents.x, standArea.bounds.extents.x), 0, standArea.transform.position.z - Random.Range(-standArea.bounds.extents.z, standArea.bounds.extents.z));
 
     public float ChanceModifier { get { return chanceToEnter; } set { chanceToEnter = value; } }
+
+    public int GetPatronOrder() => Patrons[0].GetPatronNumber();
+
 }

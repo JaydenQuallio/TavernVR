@@ -5,7 +5,7 @@ using UnityEngine;
 public class DrinksManager : SerializedMonoBehaviour
 {
     [SerializeField]
-    private Dictionary<string, OrderScriptable> orders = new();
+    private Dictionary<int, OrderScriptable> orders = new();
 
     public static DrinksManager Instance = new();
 
@@ -21,12 +21,12 @@ public class DrinksManager : SerializedMonoBehaviour
         }
     }
 
-    public OrderScriptable GetOrder(string orderName)
+    public OrderScriptable GetOrder(int orderNumber)
     {
-        if (orders[orderName])
+        if (orders[orderNumber])
         {
-            Debug.Log(orderName);
-            return orders[orderName];
+            Debug.Log(orderNumber);
+            return orders[orderNumber];
         }
         else
         {
@@ -34,4 +34,6 @@ public class DrinksManager : SerializedMonoBehaviour
             return null;
         }
     }
+
+    public int DrinkCount => orders.Count;
 }

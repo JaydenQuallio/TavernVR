@@ -26,6 +26,9 @@ public class GrogBarrel : MonoBehaviour
     [SerializeField]
     private HingeJoint lever;
 
+    [SerializeField]
+    private bool debug = false;
+
     private void Awake()
     {
         references = References.instance;
@@ -48,7 +51,7 @@ public class GrogBarrel : MonoBehaviour
 
     private void Update()
     {
-        if (lever.angle >= 0f)
+        if (lever.angle >= 0f && !debug)
         {
             pourRenderer.enabled = false;
             splashPart.Stop();
@@ -81,7 +84,7 @@ public class GrogBarrel : MonoBehaviour
     {
         if (currentGrogObject == other.gameObject)
         {
-            float tempAmount = Mathf.Lerp(.05f, .2f, -lever.angle);
+            float tempAmount = Mathf.Lerp(.05f, .1f, -lever.angle);
 
             currentGrog.FillGrog(drinkType, tempAmount * Time.fixedDeltaTime);
         }

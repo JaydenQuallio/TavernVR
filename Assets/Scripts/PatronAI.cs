@@ -119,7 +119,8 @@ public class PatronAI : MonoBehaviour, IPatronInterface
 
     // Sets the AI's number
     public void SetPatronNumber(int pos) => patronNumber = pos;
-    
+    public int GetPatronNumber() => patronNumber;
+
     // When called make the AI get in line and set their active state to waiting for their order
     private void AddToList() => patronManager.AddPlayerToLine(this);
 

@@ -14639,7 +14639,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: -8679921383154817045, guid: 2de3c0203121796489c01a52fc581faf, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0.80118304
+      value: 0.802183
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 2de3c0203121796489c01a52fc581faf, type: 3}
       propertyPath: m_LocalPosition.y
@@ -14647,7 +14647,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 2de3c0203121796489c01a52fc581faf, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0.28451413
+      value: 3.212
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 2de3c0203121796489c01a52fc581faf, type: 3}
       propertyPath: m_LocalRotation.w
@@ -14759,7 +14759,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   drinkType: 0
   drinkLook: 1
-  isPouring: 0
   spout: {fileID: 3150646490457910327}
   ParticleParent: {fileID: 2030730922248312865}
   pourRenderer: {fileID: 8485672184764915112}
@@ -14790,8 +14789,8 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 0.6548427, y: 0.6869076, z: 0.6756136}
-  m_Center: {x: 0, y: 0, z: 0}
+  m_Size: {x: 0.6548427, y: 0.6209239, z: 0.6756136}
+  m_Center: {x: 0, y: 0.032991886, z: 0}
 --- !u!1 &8417514195565553064 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: -7640558969779515294, guid: 2de3c0203121796489c01a52fc581faf, type: 3}

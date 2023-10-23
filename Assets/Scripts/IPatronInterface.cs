@@ -8,6 +8,7 @@ public interface IPatronInterface
     PlayerStates GetOrderState();
     void MoveTo(Vector3 spotToMove);
     void SetPatronNumber(int pos);
+    int GetPatronNumber();
     void SetLineNumber(int pos);
     int GetLineNumber();
     void WaitForItem();

@@ -1,6 +1,8 @@
 using UnityEngine;
 using System.Collections.Generic;
 using Sirenix.OdinInspector;
+using System.Text;
+using TMPro;
 
 public class OrderScript : SerializedMonoBehaviour, IOrderInterface
 {
@@ -26,27 +28,50 @@ public class OrderScript : SerializedMonoBehaviour, IOrderInterface
     private OrderScriptable order;
 
     [ShowInInspector]
-    private List<IGrogInterface> drinks = new List<IGrogInterface>();
+    private IGrogInterface drinks;
+
+    private StringBuilder sb = new();
+
+    [SerializeField]
+    private TextMeshProUGUI tmp;
+
+    [ShowInInspector]
+    private Vector3 drinkValues = new();
 
     private void OnEnable()
     {
         PatronManager.Instance.InitialAddToOrderList(this);
     }
 
-    public void SetOrder(int orderNumber, IPatronInterface patronInterface)
+    private void Start()
+    {
+        SetOrder(PatronManager.Instance.GetPatronOrder(), GetOrder());
+    }
+
+    private OrderScriptable GetOrder()
+    {
+        return DrinksManager.Instance.GetOrder(Random.Range(0, DrinksManager.Instance.DrinkCount - 1));
+    }
+
+    public void SetOrder(int orderNumber, OrderScriptable orderScriptable)
     {
         orderNum = orderNumber;
-        patron = patronInterface;
+        order = orderScriptable;
+
+        sb.Append("Patron #").Append(orderNum).AppendLine("\n1 x ").Append(order.drinkName);
+
+        tmp.text = sb.ToString();
+
         Debug.Log("Ordered");
     }
 
     private void Update()
     {
-        if (isPickedUp)
+        if (isPickedUp )
             return;
 
         RaycastHit hit;
-        if (Physics.Raycast(stickPoint.transform.position, stickPoint.TransformDirection(Vector3.down), out hit, .02f, ~avoidLayer))
+        if (Physics.Raycast(stickPoint.transform.position, stickPoint.TransformDirection(Vector3.down), out hit, .035f, ~avoidLayer))
         {
             if (transform.parent != hit.transform)
             {
@@ -59,40 +84,38 @@ public class OrderScript : SerializedMonoBehaviour, IOrderInterface
         {
             transform.SetParent(notesParent);
             rb.isKinematic = false;
-            drinks.Clear();
+            drinks = null;
         }
 
         Debug.DrawRay(stickPoint.position, stickPoint.TransformDirection(Vector3.down), Color.red, .02f);
     }
 
-    public void OnPickUp() => isPickedUp = true;
+    public void OnPickUp()
+    {
+        isPickedUp = true;
+        Debug.Log("Is not kinematic");
+        rb.isKinematic = false;
+    }
     public void OnDropped() => isPickedUp = false;
 
     public void GetDrinks(GameObject parents)
     {
-        if (drinks.Contains(parents.transform.GetComponent<IGrogInterface>()))
+        IGrogInterface tempInterface = parents.transform.GetComponent<IGrogInterface>();
+
+        if (drinks == tempInterface)
             return;
 
         Debug.Log("adding drink");
 
         if (parents.CompareTag("Drink"))
-                drinks.Add(parents.transform.GetComponent<IGrogInterface>());
-        else
         {
-            for (int i = 0; i < parents.transform.childCount; i++)
-            {
-                Debug.Log(parents.transform.GetChild(i));
-
-                if (parents.transform.GetChild(i).CompareTag("Drink"))
-                {
-                    drinks.Add(parents.transform.GetChild(i).GetComponent<IGrogInterface>());
-                }
-            }
+            drinks = tempInterface;
+            drinkValues = tempInterface.GetDrink();
         }
-        Debug.Log(drinks.Count);
-
     }
 
-    public void ClearDrinks() => drinks.Clear();
-
+    public void ClearDrinks()
+    {
+        drinks = null;
+    }    
 }
