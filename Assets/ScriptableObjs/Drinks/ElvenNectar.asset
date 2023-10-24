@@ -10,10 +10,10 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 4f44aadf09f668549ad7be3f3777294f, type: 3}
-  m_Name: GoblinsTounge
+  m_Name: ElvenNectar
   m_EditorClassIdentifier: 
-  drinkName: Goblins Tounge
+  drinkName: Elven Nectar
   modifer: 0
-  red: 0.33
-  green: 0.2
-  blue: 0.47
+  red: 0
+  green: 1
+  blue: 0

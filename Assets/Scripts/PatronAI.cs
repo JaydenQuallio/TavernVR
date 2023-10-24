@@ -38,8 +38,7 @@ public class PatronAI : MonoBehaviour, IPatronInterface
         orderInterface = patronOrder.GetComponent<IOrderInterface>();
 
         patronOrder.transform.parent = patronManager.GetOrderTrans();
-        patronOrder.transform.position = patronManager.GetOrderTrans().position;
-        patronOrder.transform.rotation = patronManager.GetOrderTrans().rotation;
+        patronOrder.transform.SetPositionAndRotation(patronManager.GetOrderTrans().position, patronManager.GetOrderTrans().rotation);
     }
 
     private void OnEnable()

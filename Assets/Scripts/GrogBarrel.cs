@@ -26,8 +26,7 @@ public class GrogBarrel : MonoBehaviour
     [SerializeField]
     private HingeJoint lever;
 
-    [SerializeField]
-    private bool debug = false;
+    private bool isPlaying;
 
     private void Awake()
     {
@@ -51,31 +50,41 @@ public class GrogBarrel : MonoBehaviour
 
     private void Update()
     {
-        if (lever.angle >= 0f && !debug)
+        if (lever.angle > 0f)
         {
             pourRenderer.enabled = false;
-            splashPart.Stop();
-            carbonationPart.Stop();
-            foamPart.Stop();
+
+            if (isPlaying)
+            {
+                splashPart.Stop();
+                carbonationPart.Stop();
+                foamPart.Stop();
+                isPlaying = false;
+            }
         }
         else
         {
             curve = AnimationCurve.EaseInOut(0f, Mathf.Lerp(0f, .33f, lever.angle / lever.limits.min), 1f, Mathf.Lerp(0f, .2f, lever.angle / lever.limits.min));
             pourRenderer.widthCurve = curve;
             RaycastHit hit;
+
             if (Physics.Raycast(spout.transform.position, transform.TransformDirection(Vector3.down), out hit, 1000f))
             {
                 DrawLineSine(hit.point);
 
                 foamPart.transform.position = hit.point;
 
-                FillDrink(hit.collider);
-
                 pourRenderer.enabled = true;
 
-                splashPart.Play();
-                carbonationPart.Play();
-                foamPart.Play();
+                if (!isPlaying)
+                {
+                    splashPart.Play();
+                    carbonationPart.Play();
+                    foamPart.Play();
+                    isPlaying = true;
+                }
+
+                FillDrink(hit.collider);
             }
         }
     }
@@ -84,7 +93,7 @@ public class GrogBarrel : MonoBehaviour
     {
         if (currentGrogObject == other.gameObject)
         {
-            float tempAmount = Mathf.Lerp(.05f, .1f, -lever.angle);
+            float tempAmount = Mathf.Lerp(.05f, .1f, lever.angle / lever.limits.min);
 
             currentGrog.FillGrog(drinkType, tempAmount * Time.fixedDeltaTime);
         }
@@ -114,8 +123,8 @@ public class GrogBarrel : MonoBehaviour
             float x = Mathf.Lerp(xStart, xFinish, progress);
             float y = amplitude * Mathf.Sin((Tau * waveFreq * x) + (Time.timeSinceLevelLoad * movementSpeed));
             pourRenderer.SetPosition(currentPoint, new Vector3(y, x, 0));
-        } 
-    } 
+        }
+    }
 
     public void SetGrogDictionary(Dictionary<GameObject, IGrogInterface> dictionary)
     {

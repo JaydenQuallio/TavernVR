@@ -1,5 +1,4 @@
 using UnityEngine;
-using System.Collections.Generic;
 using System.Text;
 using TMPro;
 
@@ -21,7 +20,7 @@ public class OrderScript : MonoBehaviour, IOrderInterface
 
     private IPatronInterface patron;
 
-    private bool isPickedUp = false;
+    private bool isPickedUp = false, hasBeenTouched = false;
 
     [SerializeField]
     private OrderScriptable order;
@@ -35,7 +34,7 @@ public class OrderScript : MonoBehaviour, IOrderInterface
 
     [SerializeField]
     private Vector3 drinkValues = new();
-
+    
     private void OnEnable()
     {
         PatronManager.Instance.InitialAddToOrderList(this);
@@ -43,7 +42,7 @@ public class OrderScript : MonoBehaviour, IOrderInterface
 
     public OrderScriptable GenerateOrder()
     {
-        return DrinksManager.Instance.GetOrder(Random.Range(0, DrinksManager.Instance.DrinkCount - 1));
+        return DrinksManager.Instance.GetOrder(Random.Range(0, DrinksManager.Instance.DrinkCount));
     }
 
     public void SetOrder(int orderNumber, OrderScriptable orderScriptable)
@@ -60,7 +59,7 @@ public class OrderScript : MonoBehaviour, IOrderInterface
 
     private void Update()
     {
-        if (isPickedUp )
+        if (isPickedUp)
             return;
 
         RaycastHit hit;
@@ -73,7 +72,7 @@ public class OrderScript : MonoBehaviour, IOrderInterface
                 GetDrinks(hit.transform.gameObject);
             }
         }
-        else
+        else if(hasBeenTouched)
         {
             transform.SetParent(notesParent);
             rb.isKinematic = false;
@@ -86,11 +85,21 @@ public class OrderScript : MonoBehaviour, IOrderInterface
     public void OnPickUp()
     {
         isPickedUp = true;
-        Debug.Log("Is not kinematic");
         rb.isKinematic = false;
+        rb.useGravity = true;
+
+        if (!hasBeenTouched)
+        {
+            PatronManager.Instance.ProgressLine();
+            hasBeenTouched = true;
+        }
     }
 
-    public void OnDropped() => isPickedUp = false;
+    public void OnDropped()
+    {
+        rb.useGravity = true;
+        isPickedUp = false;
+    }
 
     public void GetDrinks(GameObject parents)
     {
