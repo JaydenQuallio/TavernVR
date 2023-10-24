@@ -7,4 +7,5 @@ public interface IOrderInterface
     void SetOrder(int orderNum, OrderScriptable order);
     void GetDrinks(GameObject gameObject);
     void ClearDrinks();
+    OrderScriptable GenerateOrder();
 }

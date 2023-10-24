@@ -1,10 +1,9 @@
 using UnityEngine;
 using System.Collections.Generic;
-using Sirenix.OdinInspector;
 using System.Text;
 using TMPro;
 
-public class OrderScript : SerializedMonoBehaviour, IOrderInterface
+public class OrderScript : MonoBehaviour, IOrderInterface
 {
     [SerializeField]
     private Transform stickPoint;
@@ -27,7 +26,6 @@ public class OrderScript : SerializedMonoBehaviour, IOrderInterface
     [SerializeField]
     private OrderScriptable order;
 
-    [ShowInInspector]
     private IGrogInterface drinks;
 
     private StringBuilder sb = new();
@@ -35,7 +33,7 @@ public class OrderScript : SerializedMonoBehaviour, IOrderInterface
     [SerializeField]
     private TextMeshProUGUI tmp;
 
-    [ShowInInspector]
+    [SerializeField]
     private Vector3 drinkValues = new();
 
     private void OnEnable()
@@ -43,12 +41,7 @@ public class OrderScript : SerializedMonoBehaviour, IOrderInterface
         PatronManager.Instance.InitialAddToOrderList(this);
     }
 
-    private void Start()
-    {
-        SetOrder(PatronManager.Instance.GetPatronOrder(), GetOrder());
-    }
-
-    private OrderScriptable GetOrder()
+    public OrderScriptable GenerateOrder()
     {
         return DrinksManager.Instance.GetOrder(Random.Range(0, DrinksManager.Instance.DrinkCount - 1));
     }
@@ -96,6 +89,7 @@ public class OrderScript : SerializedMonoBehaviour, IOrderInterface
         Debug.Log("Is not kinematic");
         rb.isKinematic = false;
     }
+
     public void OnDropped() => isPickedUp = false;
 
     public void GetDrinks(GameObject parents)

@@ -22,6 +22,10 @@ public class PatronAI : MonoBehaviour, IPatronInterface
     [SerializeField]
     private PlayerStates currentState;
 
+    [SerializeField]
+    private GameObject patronOrder;
+    private IOrderInterface orderInterface;
+
     private void Awake()
     {
         patronManager = PatronManager.Instance;
@@ -31,6 +35,11 @@ public class PatronAI : MonoBehaviour, IPatronInterface
     {
         currentState = PlayerStates.None;
         chanceMod = patronManager.ChanceModifier;
+        orderInterface = patronOrder.GetComponent<IOrderInterface>();
+
+        patronOrder.transform.parent = patronManager.GetOrderTrans();
+        patronOrder.transform.position = patronManager.GetOrderTrans().position;
+        patronOrder.transform.rotation = patronManager.GetOrderTrans().rotation;
     }
 
     private void OnEnable()
@@ -118,7 +127,11 @@ public class PatronAI : MonoBehaviour, IPatronInterface
     }
 
     // Sets the AI's number
-    public void SetPatronNumber(int pos) => patronNumber = pos;
+    public void SetPatronNumber(int pos)
+    {
+        patronNumber = pos;
+    }
+
     public int GetPatronNumber() => patronNumber;
 
     // When called make the AI get in line and set their active state to waiting for their order
@@ -144,6 +157,12 @@ public class PatronAI : MonoBehaviour, IPatronInterface
     {
         lineNumber = pos;
         nextPos = pos - 1;
+
+        if(nextPos < 0)
+        {
+            patronOrder.SetActive(true);
+            orderInterface.SetOrder(patronNumber, orderInterface.GenerateOrder());
+        }
     }
 
     public int GetLineNumber() => lineNumber;

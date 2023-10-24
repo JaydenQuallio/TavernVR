@@ -14,7 +14,14 @@ public class PatronManager : SerializedMonoBehaviour
     [SerializeField]
     private List<Transform> roamingPoints = new();
 
+    [SerializeField]
+    private GameObject orderPref;
+
+    [SerializeField]
+    private Transform noteTrans;
+
     // Interfaces
+    [ShowInInspector]
     private List<IOrderInterface> Orders = new();
     private List<IPatronInterface> Patrons = new();
     private List<IPatronInterface> QueuedInLine = new();
@@ -23,7 +30,7 @@ public class PatronManager : SerializedMonoBehaviour
     [SerializeField]
     private BoxCollider standArea;
 
-    int patronCount = 0;
+    private int patronCount = 0;
 
     private float chanceToEnter = 1.33f;
 
@@ -56,8 +63,13 @@ public class PatronManager : SerializedMonoBehaviour
                     continue;
 
                 QueuedInLine[0].SetOrderState(PlayerStates.OrderWait);
+
+                patronCount++;
+                QueuedInLine[0].SetPatronNumber(patronCount);
+
                 QueuedInLine[0].SetLineNumber(point);
                 QueuedInLine[0].MoveTo(LinePoints[QueuedInLine[0].GetLineNumber()].position);
+
                 CloseSpot(0);
                 walkingPoints.Remove(point);
             }
@@ -80,7 +92,6 @@ public class PatronManager : SerializedMonoBehaviour
             {
                 walkingPoints.Add((LinePoints.Count - 1) - i);
                 walkingPoints = walkingPoints.OrderBy(num => num).ToList();
-                Debug.Log("TEst");
             }
         }
     }
@@ -99,9 +110,6 @@ public class PatronManager : SerializedMonoBehaviour
             return;
 
         Patrons.Add(patron);
-
-        patronCount++;
-        Patrons[patronCount - 1].SetPatronNumber(patronCount);
     }
 
     public void AddPlayerToLine(IPatronInterface player)
@@ -139,4 +147,5 @@ public class PatronManager : SerializedMonoBehaviour
 
     public int GetPatronOrder() => Patrons[0].GetPatronNumber();
 
+    public Transform GetOrderTrans() => noteTrans;
 }
