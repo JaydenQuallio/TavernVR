@@ -10,11 +10,11 @@ public class OrderScriptable : ScriptableObject
     public float red, green, blue;
 
 
-    public float CompareDrink(float r, float g, float b)
+    public float CompareDrink(Vector3 drinkValues)
     {
-        float tempRed = Mathf.Abs(red - r);
-        float tempGreen = Mathf.Abs(green - g);
-        float tempBlue = Mathf.Abs(blue - b);
+        float tempRed = Mathf.Abs(red - drinkValues.x);
+        float tempGreen = Mathf.Abs(green - drinkValues.y);
+        float tempBlue = Mathf.Abs(blue - drinkValues.z);
 
         float percent = 1f - (tempRed + tempGreen + tempBlue);
 

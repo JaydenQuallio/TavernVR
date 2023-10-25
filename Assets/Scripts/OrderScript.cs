@@ -18,8 +18,6 @@ public class OrderScript : MonoBehaviour, IOrderInterface
 
     private int orderNum = 0;
 
-    private IPatronInterface patron;
-
     private bool isPickedUp = false, hasBeenTouched = false;
 
     [SerializeField]
@@ -120,5 +118,9 @@ public class OrderScript : MonoBehaviour, IOrderInterface
     public void ClearDrinks()
     {
         drinks = null;
-    }    
+    }
+
+    public bool HasDrink() => drinks != null;
+
+    public float CompareDrink() => order.CompareDrink(drinks.GetDrink());
 }
