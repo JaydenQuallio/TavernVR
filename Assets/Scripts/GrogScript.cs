@@ -11,7 +11,10 @@ public class GrogScript : SerializedMonoBehaviour, IGrogInterface
     private LiquidScript liquidScript;
 
     [SerializeField]
-    private float totalLiquid;
+    private float totalLiquid, maxLiquid = 1f, emptyAmount = .075f;
+
+    [SerializeField]
+    private float maxLiquidMesh = .625f, minLiquidMesh = .45f;
 
     [SerializeField]
     private Renderer liquidRenderer;
@@ -46,24 +49,51 @@ public class GrogScript : SerializedMonoBehaviour, IGrogInterface
     {
         float tiltAngle = Vector3.Angle(Vector3.up, transform.up);
 
-        if (tiltAngle > 90f)
+        if (tiltAngle > 90f && totalLiquid > 0f)
         {
+            EmptyGrog(emptyAmount * Time.fixedDeltaTime);
             Debug.Log("Object tilted more than 90 degrs!");
         }
     }
 
     public void FillGrog(DrinkTypes drinkType, float fillAmount)
     {
-        if(liquidScript.enabled == false)
+        if (liquidScript.enabled == false)
             liquidScript.enabled = true;
 
-        totalLiquid += fillAmount;
-        
-        //Amount of liquid that is filled
-        liquidScript.SetAmount = Mathf.Lerp(.6f, .45f, totalLiquid);
+        if (totalLiquid >= maxLiquid)
+            EmptyGrog(fillAmount); // Pour out the excess
+        else
+        {
+            totalLiquid += fillAmount;
+            drinkList[drinkType] += fillAmount;
+        }
+
+        //Amount of liquid that is filled 
+        SetLiquidHeight(maxLiquidMesh, minLiquidMesh, totalLiquid);
         ChangeDrinkColor(drinkType, fillAmount);
     }
-     
+
+    private void EmptyGrog(float empty)
+    {
+        for (int i = 0; i < drinkList.Count - 1; i++)
+        {
+            if (drinkList[(DrinkTypes)i] > 0f)
+            {
+                totalLiquid -= empty;
+                drinkList[(DrinkTypes)i] -= empty;
+            }
+            if (drinkList[(DrinkTypes)i] <= 0f)
+            {
+                drinkList[(DrinkTypes)i] = 0f;
+            }
+        }
+        if (totalLiquid < 0f)
+            totalLiquid = 0f;
+
+        SetLiquidHeight(maxLiquidMesh, minLiquidMesh, totalLiquid);
+    }
+
     private void ChangeDrinkColor(DrinkTypes type, float fillAmount)
     {
         if (!hasIntialColor)
@@ -71,8 +101,6 @@ public class GrogScript : SerializedMonoBehaviour, IGrogInterface
             SetColor(references.GetDrinkMaterial(type));
             hasIntialColor = true;
         }
-        
-        drinkList[type] += fillAmount;
 
         ColorToLerp(references.GetDrinkMaterial(type), drinkList[type] / totalLiquid);
     }
@@ -107,8 +135,11 @@ public class GrogScript : SerializedMonoBehaviour, IGrogInterface
         }
     }
 
-    public Vector3 GetDrink()
-    {
-        return new Vector3(drinkList[DrinkTypes.RedPotion], drinkList[DrinkTypes.GreenPotion], drinkList[DrinkTypes.BluePotion]);
-    }
+    private void SetLiquidHeight(float maxHeight, float minHeight, float total) =>liquidScript.SetAmount = Mathf.Lerp(maxHeight, minHeight, total);
+
+    public float GetFillAmount() => totalLiquid;
+    public float GetMaxAmount() => maxLiquid;
+
+    public Vector3 GetDrink() => new(drinkList[DrinkTypes.RedPotion], drinkList[DrinkTypes.GreenPotion], drinkList[DrinkTypes.BluePotion]);
+    
 }

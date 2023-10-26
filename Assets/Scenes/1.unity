@@ -1160,6 +1160,7 @@ GameObject:
   - component: {fileID: 313256155}
   - component: {fileID: 313256156}
   - component: {fileID: 313256153}
+  - component: {fileID: 313256157}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -1356,11 +1357,11 @@ MonoBehaviour:
     SerializedBytes: 
     ReferencedUnityObjects:
     - {fileID: 2100000, guid: 5c8ad41c2d40923459435be30829ec7c, type: 2}
-    - {fileID: 2100000, guid: 6d3811bf29b4dd543b40f342796509d1, type: 2}
     - {fileID: 2100000, guid: 35a7455f17aeffc408318553950df6c6, type: 2}
+    - {fileID: 2100000, guid: 6d3811bf29b4dd543b40f342796509d1, type: 2}
     - {fileID: 2100000, guid: a21b6b72e35d8384ba1ed5367c908d4a, type: 2}
-    - {fileID: 2100000, guid: f9950fd69fa6f6e4e979e955371340c4, type: 2}
     - {fileID: 2100000, guid: 30294d57b7894b24b9a9113fd812ff97, type: 2}
+    - {fileID: 2100000, guid: f9950fd69fa6f6e4e979e955371340c4, type: 2}
     SerializedBytesString: 
     Prefab: {fileID: 0}
     PrefabModificationsReferencedUnityObjects: []
@@ -1531,6 +1532,18 @@ MonoBehaviour:
     - Name: 
       Entry: 8
       Data: 
+--- !u!114 &313256157
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 313256150}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2474f36f768c71742b95a99f63feadb3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &339299237
 GameObject:
   m_ObjectHideFlags: 0
@@ -3768,7 +3781,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 7398558717527806497, guid: 59469105eac7b07479d0012d81cddeaa, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 2.29
+      value: 1.54
       objectReference: {fileID: 0}
     - target: {fileID: 7398558717527806497, guid: 59469105eac7b07479d0012d81cddeaa, type: 3}
       propertyPath: m_LocalPosition.y
@@ -3812,11 +3825,11 @@ PrefabInstance:
       objectReference: {fileID: 2100000, guid: 30294d57b7894b24b9a9113fd812ff97, type: 2}
     - target: {fileID: 7790417212726937929, guid: 59469105eac7b07479d0012d81cddeaa, type: 3}
       propertyPath: drinkLook
-      value: 5
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 7790417212726937929, guid: 59469105eac7b07479d0012d81cddeaa, type: 3}
       propertyPath: drinkType
-      value: 4
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 7790417212726937929, guid: 59469105eac7b07479d0012d81cddeaa, type: 3}
       propertyPath: isPouring
@@ -4589,7 +4602,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 7398558717527806497, guid: 59469105eac7b07479d0012d81cddeaa, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 1.5059999
+      value: 2.256
       objectReference: {fileID: 0}
     - target: {fileID: 7398558717527806497, guid: 59469105eac7b07479d0012d81cddeaa, type: 3}
       propertyPath: m_LocalPosition.y
@@ -4633,11 +4646,11 @@ PrefabInstance:
       objectReference: {fileID: 2100000, guid: f9950fd69fa6f6e4e979e955371340c4, type: 2}
     - target: {fileID: 7790417212726937929, guid: 59469105eac7b07479d0012d81cddeaa, type: 3}
       propertyPath: drinkLook
-      value: 3
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 7790417212726937929, guid: 59469105eac7b07479d0012d81cddeaa, type: 3}
       propertyPath: drinkType
-      value: 2
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 7790417212726937929, guid: 59469105eac7b07479d0012d81cddeaa, type: 3}
       propertyPath: isPouring
@@ -4807,7 +4820,7 @@ GameObject:
   - component: {fileID: 2053310374}
   - component: {fileID: 2053310373}
   - component: {fileID: 2053310378}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: OrderArea
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5341,9 +5354,21 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8804876092153488282, guid: aca120b112eb804468d09accc2ed186f, type: 3}
+      propertyPath: emptyAmount
+      value: 0.075
+      objectReference: {fileID: 0}
+    - target: {fileID: 8804876092153488282, guid: aca120b112eb804468d09accc2ed186f, type: 3}
+      propertyPath: maxLiquidMesh
+      value: 0.625
+      objectReference: {fileID: 0}
+    - target: {fileID: 8804876092153488282, guid: aca120b112eb804468d09accc2ed186f, type: 3}
+      propertyPath: minLiquidMesh
+      value: 0.45
+      objectReference: {fileID: 0}
+    - target: {fileID: 8804876092153488282, guid: aca120b112eb804468d09accc2ed186f, type: 3}
       propertyPath: serializationData.Prefab
       value: 
-      objectReference: {fileID: 8804876092153488282, guid: aca120b112eb804468d09accc2ed186f, type: 3}
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

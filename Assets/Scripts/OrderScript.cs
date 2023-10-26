@@ -18,6 +18,7 @@ public class OrderScript : MonoBehaviour, IOrderInterface
 
     private int orderNum = 0;
 
+    [SerializeField]
     private bool isPickedUp = false, hasBeenTouched = false;
 
     [SerializeField]
@@ -57,7 +58,7 @@ public class OrderScript : MonoBehaviour, IOrderInterface
 
     private void Update()
     {
-        if (isPickedUp)
+        if (isPickedUp || !hasBeenTouched)
             return;
 
         RaycastHit hit;
@@ -122,5 +123,5 @@ public class OrderScript : MonoBehaviour, IOrderInterface
 
     public bool HasDrink() => drinks != null;
 
-    public float CompareDrink() => order.CompareDrink(drinks.GetDrink());
+    public float CompareDrink() => order.CompareDrink(drinks.GetDrink(), drinks.GetFillAmount(), drinks.GetMaxAmount());
 }

@@ -10,19 +10,28 @@ public class OrderScriptable : ScriptableObject
     public float red, green, blue;
 
 
-    public float CompareDrink(Vector3 drinkValues)
+    public float CompareDrink(Vector3 drinkValues, float drinkAmount, float maxAmount)
     {
-        float tempRed = Mathf.Abs(red - drinkValues.x);
-        float tempGreen = Mathf.Abs(green - drinkValues.y);
-        float tempBlue = Mathf.Abs(blue - drinkValues.z);
+        float tempRed = red - drinkValues.x;
+        float tempGreen = green - drinkValues.y;
+        float tempBlue = blue - drinkValues.z;
 
-        float percent = 1f - (tempRed + tempGreen + tempBlue);
+        float percent = 1f;
+        float fillDiff = drinkAmount / maxAmount;
 
-        Debug.Log(tempRed);
-        Debug.Log(tempBlue);
-        Debug.Log(tempGreen);
-        Debug.Log(percent);
+        if(tempRed < 0)
+        {
+            percent += tempRed;
+        }
+        if(tempGreen < 0)
+        {
+            percent += tempGreen;
+        }
+        if (tempBlue < 0)
+        {
+            percent += tempBlue;
+        }
 
-        return percent; // Returning how close they are as a percentage
+        return (percent * fillDiff); // Returning how close they are as a percentage
     }
 }

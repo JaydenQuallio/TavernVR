@@ -2,10 +2,10 @@ public enum DrinkTypes
 {
     RedPotion,
     RedStatic,
-    BluePotion,
-    BlueStatic,
     GreenPotion,
-    GreenStatic
+    GreenStatic,
+    BluePotion,
+    BlueStatic
 }
 
 public enum PlayerStates
