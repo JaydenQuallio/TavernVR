@@ -20,9 +20,7 @@ public class PatronManager : SerializedMonoBehaviour
     [SerializeField]
     private Transform noteTrans;
 
-    // Interfaces
-    [ShowInInspector]
-    private List<IOrderInterface> Orders = new();
+    //Interfaces
     private List<IPatronInterface> Patrons = new();
     private List<IPatronInterface> QueuedInLine = new();
     private List<IPatronInterface> playersInLine = new();
@@ -96,14 +94,6 @@ public class PatronManager : SerializedMonoBehaviour
         }
     }
 
-    public void InitialAddToOrderList(IOrderInterface order)
-    {
-        if (Orders.Contains(order))
-            return;
-
-        Orders.Add(order);
-    }
-
     public void InitialAddToPatronList(IPatronInterface patron)
     {
         if (Patrons.Contains(patron))
@@ -144,8 +134,6 @@ public class PatronManager : SerializedMonoBehaviour
     public Vector3 GenerateSpot() => new(standArea.transform.position.x - Random.Range(-standArea.bounds.extents.x, standArea.bounds.extents.x), 0, standArea.transform.position.z - Random.Range(-standArea.bounds.extents.z, standArea.bounds.extents.z));
 
     public float ChanceModifier { get { return chanceToEnter; } set { chanceToEnter = value; } }
-
-    public int GetPatronOrder() => Patrons[0].GetPatronNumber();
 
     public Transform GetOrderTrans() => noteTrans;
 }

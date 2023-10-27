@@ -36,9 +36,6 @@ public class PatronAI : MonoBehaviour, IPatronInterface
         currentState = PlayerStates.None;
         chanceMod = patronManager.ChanceModifier;
         orderInterface = patronOrder.GetComponent<IOrderInterface>();
-
-        patronOrder.transform.parent = patronManager.GetOrderTrans();
-        patronOrder.transform.SetPositionAndRotation(patronManager.GetOrderTrans().position, patronManager.GetOrderTrans().rotation);
     }
 
     private void OnEnable()
@@ -53,6 +50,11 @@ public class PatronAI : MonoBehaviour, IPatronInterface
         {
             timeToSearch += Time.fixedDeltaTime;
             GoInside();
+        }
+        else if(currentState == PlayerStates.Finished)
+        {
+            timeToSearch = 0f;
+            ChooseRandomRoamingPoint();
         }
     }
 
@@ -159,6 +161,9 @@ public class PatronAI : MonoBehaviour, IPatronInterface
 
         if(nextPos < 0)
         {
+            patronOrder.transform.parent = patronManager.GetOrderTrans();
+            patronOrder.transform.SetPositionAndRotation(patronManager.GetOrderTrans().position, patronManager.GetOrderTrans().rotation);
+
             patronOrder.SetActive(true);
             orderInterface.SetOrder(patronNumber, orderInterface.GenerateOrder());
         }

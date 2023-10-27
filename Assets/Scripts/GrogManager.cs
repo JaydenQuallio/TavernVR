@@ -4,9 +4,9 @@ using UnityEngine;
 
 public class GrogManager : MonoBehaviour
 {
-    public static GrogManager instance { get; private set; }
+    public static GrogManager Instance { get; private set; }
 
-    [SerializeField]
+    [ShowInInspector]
     private List<IGrogInterface> Grogs = new();
 
     [SerializeField]
@@ -14,11 +14,17 @@ public class GrogManager : MonoBehaviour
 
     private Dictionary<GameObject, IGrogInterface> grogsDictionary = new();
 
+    [SerializeField]
+    GameObject grogCup;
+
+    [SerializeField]
+    private Transform grogPoint;
+
     private void Awake()
     {
-        if (instance == null)
+        if (Instance == null)
         {
-            instance = this;
+            Instance = this;
         }
         else
         {
@@ -45,5 +51,8 @@ public class GrogManager : MonoBehaviour
         grogBarrel.SetGrogDictionary(grogsDictionary);
     }
 
-    
+    public void SpawnNextGrog()
+    {
+        Instantiate(grogCup, grogPoint.position, Quaternion.identity);
+    }
 }

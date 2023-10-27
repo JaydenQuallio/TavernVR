@@ -35,7 +35,7 @@ public class GrogBarrel : MonoBehaviour
 
     private void Start()
     {
-        GrogManager.instance.AddBarrelToList(this);
+        GrogManager.Instance.AddBarrelToList(this);
         splashPart.GetComponent<Renderer>().material = references.GetDrinkMaterial(drinkLook);
         pourRenderer.GetComponent<Renderer>().material = references.GetDrinkMaterial(drinkLook);
     }
@@ -50,7 +50,7 @@ public class GrogBarrel : MonoBehaviour
 
     private void Update()
     {
-        if (lever.angle > 0f)
+        if (lever.angle >= 0f)
         {
             pourRenderer.enabled = false;
 

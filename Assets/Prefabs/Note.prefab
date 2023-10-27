@@ -425,6 +425,7 @@ MonoBehaviour:
   order: {fileID: 11400000, guid: a7623da400198c544a21463c51cd4aef, type: 2}
   tmp: {fileID: 1317795672462030758}
   drinkValues: {x: 0, y: 0, z: 0}
+  patron: {fileID: 0}
 --- !u!65 &3770425472810696643
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -438,7 +439,7 @@ BoxCollider:
     m_Bits: 0
   m_ExcludeLayers:
     serializedVersion: 2
-    m_Bits: 3072
+    m_Bits: 3328
   m_LayerOverridePriority: 0
   m_IsTrigger: 0
   m_ProvidesContacts: 0

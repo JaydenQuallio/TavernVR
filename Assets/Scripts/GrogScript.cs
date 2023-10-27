@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class GrogScript : SerializedMonoBehaviour, IGrogInterface
 {
-    [ShowInInspector]
     private Dictionary<DrinkTypes, float> drinkList = new();
 
     [SerializeField]
@@ -22,7 +21,7 @@ public class GrogScript : SerializedMonoBehaviour, IGrogInterface
     [SerializeField]
     private ContainerTypes container;
 
-    private bool hasIntialColor = false;
+    private bool hasIntialColor = false, hasBeenTouched = false;
 
     private Material tempMat = null;
     private References references;
@@ -37,7 +36,7 @@ public class GrogScript : SerializedMonoBehaviour, IGrogInterface
     {
         SetPotionStats();
 
-        GrogManager.instance.AddGrogToList(this, gameObject);
+        GrogManager.Instance.AddGrogToList(this, gameObject);
     }
 
     private void OnDisable()
@@ -121,7 +120,16 @@ public class GrogScript : SerializedMonoBehaviour, IGrogInterface
         liquidRenderer.material = tempMat;
     }
 
-    void SetPotionStats()
+    public void OnPickUp()
+    {
+        if (!hasBeenTouched)
+        {
+            GrogManager.Instance.SpawnNextGrog();
+            hasBeenTouched = true;
+        }
+    }
+
+    private void SetPotionStats()
     {
         drinkList.Clear();
 

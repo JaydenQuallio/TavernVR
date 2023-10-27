@@ -18,7 +18,6 @@ public class OrderScript : MonoBehaviour, IOrderInterface
 
     private int orderNum = 0;
 
-    [SerializeField]
     private bool isPickedUp = false, hasBeenTouched = false;
 
     [SerializeField]
@@ -33,11 +32,9 @@ public class OrderScript : MonoBehaviour, IOrderInterface
 
     [SerializeField]
     private Vector3 drinkValues = new();
-    
-    private void OnEnable()
-    {
-        PatronManager.Instance.InitialAddToOrderList(this);
-    }
+
+    [SerializeField]
+    private PatronAI patron;
 
     public OrderScriptable GenerateOrder()
     {
@@ -54,6 +51,15 @@ public class OrderScript : MonoBehaviour, IOrderInterface
         tmp.text = sb.ToString();
 
         Debug.Log("Ordered");
+    }
+
+    public void ClearOrder()
+    {
+        sb.Clear();
+        drinks = null;
+        hasBeenTouched = false;
+        isPickedUp = false;
+        drinkValues = Vector3.zero;
     }
 
     private void Update()
@@ -119,6 +125,11 @@ public class OrderScript : MonoBehaviour, IOrderInterface
     public void ClearDrinks()
     {
         drinks = null;
+    }
+
+    public void ChangePlayerState(PlayerStates state)
+    {
+        patron.SetOrderState(state);
     }
 
     public bool HasDrink() => drinks != null;

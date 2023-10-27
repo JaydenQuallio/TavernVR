@@ -1,12 +1,12 @@
-using System.Collections;
-using System.Collections.Generic;
+using Sirenix.OdinInspector;
 using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
     public static GameManager Instance;
 
-    private float coin = 0f;
+    [ShowInInspector]
+    private float coin = 0f, baseTip = 5f;
 
     private void Awake()
     {
@@ -20,22 +20,11 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    // Start is called before the first frame update
-    void Start()
-    {
-
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-
-    }
-
     public void SetCoin(float coinToAdd)
     {
         coin += coinToAdd;
     }
 
     public float GetCoin() => coin;
+    public float GetBaseCoin() => baseTip;
 }
