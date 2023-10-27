@@ -25,6 +25,10 @@ public class FinishOrder : MonoBehaviour
 
             if (tempOrder.HasDrink())
             {
+                GameObject temp = tempOrder.transform.parent.gameObject;
+
+                tempOrder.GetDrinks(temp);
+
                 GradeDrink(tempOrder.CompareDrink());
 
                 //Sets the text for how much cash there is
@@ -35,7 +39,6 @@ public class FinishOrder : MonoBehaviour
                 //Change this to consuming wait at later time for sitting at a table
                 tempOrder.ChangePlayerState(PlayerStates.Finished);
 
-                GameObject temp = tempOrder.transform.parent.gameObject;
 
                 tempOrder.transform.parent = null;
 

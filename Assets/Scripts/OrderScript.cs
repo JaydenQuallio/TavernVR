@@ -56,7 +56,7 @@ public class OrderScript : MonoBehaviour, IOrderInterface
     public void ClearOrder()
     {
         sb.Clear();
-        drinks = null;
+        ClearDrinks();
         hasBeenTouched = false;
         isPickedUp = false;
         drinkValues = Vector3.zero;
