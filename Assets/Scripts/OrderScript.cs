@@ -1,40 +1,46 @@
 using UnityEngine;
 using System.Text;
 using TMPro;
+using System.Collections.Generic;
+using UnityEngine.UI;
+using Sirenix.OdinInspector;
 
 public class OrderScript : MonoBehaviour, IOrderInterface
 {
+    [TabGroup("Components")]
     [SerializeField]
     private Transform stickPoint;
 
+    [TabGroup("Components")]
     [SerializeField]
     private Rigidbody rb;
 
+    [TabGroup("Components")]
+    [SerializeField]
+    private TextMeshProUGUI noteText;
+
+    [TabGroup("NoteSettings")]
+    [SerializeField]
+    private OrderScriptable order;
+
+    [TabGroup("NoteSettings")]
     [SerializeField]
     private LayerMask avoidLayer;
 
+    [BoxGroup("Parent")]
     [SerializeField]
-    private Transform notesParent;
+    private PatronAI patron;
+
+    [ShowInInspector]
+    private List<float> drinkValues = new();
 
     private int orderNum = 0;
-
-    private bool isPickedUp = false, hasBeenTouched = false;
-
-    [SerializeField]
-    private OrderScriptable order;
 
     private IGrogInterface drinks;
 
     private StringBuilder sb = new();
 
-    [SerializeField]
-    private TextMeshProUGUI tmp;
-
-    [SerializeField]
-    private Vector3 drinkValues = new();
-
-    [SerializeField]
-    private PatronAI patron;
+    private bool isPickedUp = false, hasBeenTouched = false;
 
     public OrderScriptable GenerateOrder()
     {
@@ -48,7 +54,7 @@ public class OrderScript : MonoBehaviour, IOrderInterface
 
         sb.Append("Patron #").Append(orderNum).AppendLine("\n1 x ").Append(order.drinkName);
 
-        tmp.text = sb.ToString();
+        noteText.text = sb.ToString();
 
         Debug.Log("Ordered");
     }
@@ -59,7 +65,7 @@ public class OrderScript : MonoBehaviour, IOrderInterface
         ClearDrinks();
         hasBeenTouched = false;
         isPickedUp = false;
-        drinkValues = Vector3.zero;
+        drinkValues.Clear();
     }
 
     private void Update()
@@ -79,12 +85,19 @@ public class OrderScript : MonoBehaviour, IOrderInterface
         }
         else if(hasBeenTouched)
         {
-            transform.SetParent(notesParent);
+            transform.SetParent(null);
             rb.isKinematic = false;
             drinks = null;
         }
 
         Debug.DrawRay(stickPoint.position, stickPoint.TransformDirection(Vector3.down), Color.red, .02f);
+    }
+
+    [Button("Simulate Grab")]
+    private void TestGrab()
+    {
+        OnPickUp();
+        OnDropped();
     }
 
     public void OnPickUp()
@@ -118,7 +131,8 @@ public class OrderScript : MonoBehaviour, IOrderInterface
         if (parents.CompareTag("Drink"))
         {
             drinks = tempInterface;
-            drinkValues = tempInterface.GetDrink();
+
+            drinkValues = tempInterface.GetAllDrinks();
         }
     }
 
@@ -134,5 +148,16 @@ public class OrderScript : MonoBehaviour, IOrderInterface
 
     public bool HasDrink() => drinks != null;
 
-    public float CompareDrink() => order.CompareDrink(drinks.GetDrink(), drinks.GetFillAmount(), drinks.GetMaxAmount());
+    public float CompareDrink()
+    {
+        order.CalculateDrink(
+            drinks.GetDrink(DrinkTypes.RedPotion), 
+            drinks.GetDrink(DrinkTypes.GreenPotion), 
+            drinks.GetDrink(DrinkTypes.BluePotion), 
+            drinks.GetDrink(DrinkTypes.WhitePotion),
+            drinks.GetDrink(DrinkTypes.BlackPotion)
+            );
+
+        return order.CompareDrink(drinks.GetFillAmount(), drinks.GetMaxAmount());
+    }
 }

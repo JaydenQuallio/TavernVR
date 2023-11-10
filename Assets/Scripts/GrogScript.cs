@@ -143,11 +143,12 @@ public class GrogScript : SerializedMonoBehaviour, IGrogInterface
         }
     }
 
-    private void SetLiquidHeight(float maxHeight, float minHeight, float total) =>liquidScript.SetAmount = Mathf.Lerp(maxHeight, minHeight, total);
+    private void SetLiquidHeight(float maxHeight, float minHeight, float total) => liquidScript.SetAmount = Mathf.Lerp(maxHeight, minHeight, total);
 
     public float GetFillAmount() => totalLiquid;
     public float GetMaxAmount() => maxLiquid;
 
-    public Vector3 GetDrink() => new(drinkList[DrinkTypes.RedPotion], drinkList[DrinkTypes.GreenPotion], drinkList[DrinkTypes.BluePotion]);
-    
+    public float GetDrink(DrinkTypes type) => drinkList[type];
+
+    public List<float> GetAllDrinks() => new() { GetDrink(DrinkTypes.RedPotion), GetDrink(DrinkTypes.GreenPotion), GetDrink(DrinkTypes.BluePotion), GetDrink(DrinkTypes.WhitePotion), GetDrink(DrinkTypes.BlackPotion)};
 }

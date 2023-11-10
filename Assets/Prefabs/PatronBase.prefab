@@ -310,6 +310,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 3135750532194032849}
     - target: {fileID: 3325021252645813937, guid: 794ebdf28f551844f9fa4eb19f23654e, type: 3}
+      propertyPath: notesParent
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 3325021252645813937, guid: 794ebdf28f551844f9fa4eb19f23654e, type: 3}
       propertyPath: serializationData.Prefab
       value: 
       objectReference: {fileID: 3325021252645813937, guid: 794ebdf28f551844f9fa4eb19f23654e, type: 3}

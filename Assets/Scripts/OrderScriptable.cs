@@ -7,29 +7,43 @@ public class OrderScriptable : ScriptableObject
 
     public DrinkModifiers modifer;
 
-    public float red, green, blue;
+    public float red, green, blue, white, black;
 
+    private float finRed, finGreen, finBlue, finWhite, finBlack;
 
-    public float CompareDrink(Vector3 drinkValues, float drinkAmount, float maxAmount)
+    public void CalculateDrink(float tred, float tgreen, float tblue, float twhite, float tblack)
     {
-        float tempRed = red - drinkValues.x;
-        float tempGreen = green - drinkValues.y;
-        float tempBlue = blue - drinkValues.z;
+        finRed = red - tred;
+        finGreen = green - tgreen;
+        finBlue = blue - tblue;
+        finWhite = white - twhite;
+        finBlack = black - tblack;
+    }
 
+    public float CompareDrink(float drinkAmount, float maxAmount)
+    {
         float percent = 1f;
         float fillDiff = drinkAmount / maxAmount;
 
-        if(tempRed < 0)
+        if(finRed < 0)
         {
-            percent += tempRed;
+            percent += finRed;
         }
-        if(tempGreen < 0)
+        if(finGreen < 0)
         {
-            percent += tempGreen;
+            percent += finGreen;
         }
-        if (tempBlue < 0)
+        if (finBlue < 0)
         {
-            percent += tempBlue;
+            percent += finBlue;
+        }
+        if (finWhite < 0)
+        {
+            percent += finWhite;
+        }
+        if (finBlack < 0)
+        {
+            percent += finBlack;
         }
 
         return (percent * fillDiff); // Returning how close they are as a percentage

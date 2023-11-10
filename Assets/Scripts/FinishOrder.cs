@@ -52,6 +52,8 @@ public class FinishOrder : MonoBehaviour
 
     private void GradeDrink(float percent)
     {
+        Debug.Log(percent);
+
         if(percent >= .99f)
         {
             gameManager.SetCoin(gameManager.GetBaseCoin() * 2f);

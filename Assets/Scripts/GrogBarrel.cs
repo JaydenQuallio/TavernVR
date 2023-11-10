@@ -1,3 +1,4 @@
+using Sirenix.OdinInspector;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -5,28 +6,45 @@ public class GrogBarrel : MonoBehaviour
 {
     private Dictionary<GameObject, IGrogInterface> grogsDictionary = new();
 
+    [TabGroup("Drink Settings")]
     [SerializeField]
     private DrinkTypes drinkType, drinkLook;
 
-    private GameObject currentGrogObject;
-
-    [SerializeField]
-    private GameObject spout, ParticleParent;
-
-    private IGrogInterface currentGrog;
-
-    [SerializeField]
-    private LineRenderer pourRenderer;
-
+    [TabGroup("Particle Systems")]
     [SerializeField]
     private ParticleSystem splashPart, carbonationPart, foamPart;
 
-    private References references;
+    [BoxGroup("References")]
+    [SerializeField]
+    private GameObject spout, ParticleParent;
+    
+    [BoxGroup("References")]
+    [SerializeField]
+    private LineRenderer pourRenderer;
 
+    [BoxGroup("References")]
     [SerializeField]
     private HingeJoint lever;
 
+    private GameObject currentGrogObject;
+
+    private References references;
+
+    private IGrogInterface currentGrog;
+
     private bool isPlaying;
+
+    [BoxGroup("Parameters")]
+    [SerializeField]
+    private float amplitude = 0.003f, waveFreq = 4.5f, movementSpeed = 10.35f;
+     
+    [BoxGroup("Parameters")]
+    [SerializeField]
+    private int points = 50;
+
+    private AnimationCurve curve = new();
+
+    private bool pourLiquid = false;
 
     private void Awake()
     {
@@ -40,52 +58,52 @@ public class GrogBarrel : MonoBehaviour
         pourRenderer.GetComponent<Renderer>().material = references.GetDrinkMaterial(drinkLook);
     }
 
-    [SerializeField]
-    private float amplitude = 0.003f, waveFreq = 4.5f, movementSpeed = 10.35f;
-
-    [SerializeField]
-    private int points = 50;
-
-    private AnimationCurve curve = new();
 
     private void Update()
     {
-        if (lever.angle >= 0f)
+        if (pourLiquid)
+        {
+            curve = AnimationCurve.EaseInOut(0f, .33f, 1f, .2f);
+            pourRenderer.widthCurve = curve;
+
+            DetectDrink();
+        }
+        else if (lever.angle >= 0f)
         {
             pourRenderer.enabled = false;
 
             if (isPlaying)
             {
-                splashPart.Stop();
-                carbonationPart.Stop();
-                foamPart.Stop();
-                isPlaying = false;
+                StartStopAnimations(false);
             }
         }
         else
         {
             curve = AnimationCurve.EaseInOut(0f, Mathf.Lerp(0f, .33f, lever.angle / lever.limits.min), 1f, Mathf.Lerp(0f, .2f, lever.angle / lever.limits.min));
             pourRenderer.widthCurve = curve;
-            RaycastHit hit;
 
-            if (Physics.Raycast(spout.transform.position, transform.TransformDirection(Vector3.down), out hit, 1000f))
+            DetectDrink();
+        }
+    }
+
+    private void DetectDrink()
+    {
+        RaycastHit hit;
+
+        if (Physics.Raycast(spout.transform.position, transform.TransformDirection(Vector3.down), out hit, 1000f))
+        {
+            DrawLineSine(hit.point);
+
+            foamPart.transform.position = hit.point;
+
+            pourRenderer.enabled = true;
+
+            if (!isPlaying)
             {
-                DrawLineSine(hit.point);
-
-                foamPart.transform.position = hit.point;
-
-                pourRenderer.enabled = true;
-
-                if (!isPlaying)
-                {
-                    splashPart.Play();
-                    carbonationPart.Play();
-                    foamPart.Play();
-                    isPlaying = true;
-                }
-
-                FillDrink(hit.collider);
+                StartStopAnimations(true);
             }
+
+            FillDrink(hit.collider);
         }
     }
 
@@ -126,8 +144,33 @@ public class GrogBarrel : MonoBehaviour
         }
     }
 
+    [Button("TestLiquid")]
+    private void TestLiquidEditor()
+    {
+        pourLiquid = !pourLiquid;
+        Debug.Log(pourLiquid);
+    }
+
     public void SetGrogDictionary(Dictionary<GameObject, IGrogInterface> dictionary)
     {
         grogsDictionary = dictionary;
+    }
+
+    private void StartStopAnimations(bool play)
+    {
+        if (play)
+        {
+            splashPart.Play();
+            carbonationPart.Play();
+            foamPart.Play();
+            isPlaying = play;
+        }
+        else
+        {
+            splashPart.Stop();
+            carbonationPart.Stop();
+            foamPart.Stop();
+            isPlaying = play;
+        }
     }
 }

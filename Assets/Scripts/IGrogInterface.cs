@@ -1,9 +1,10 @@
-using UnityEngine;
+using System.Collections.Generic;
 
 public interface IGrogInterface
 {
     void FillGrog(DrinkTypes drinkType, float fillAmount);
-    Vector3 GetDrink();
+    float GetDrink(DrinkTypes drinks);
+    List<float> GetAllDrinks();
     float GetFillAmount();
     float GetMaxAmount();
 }

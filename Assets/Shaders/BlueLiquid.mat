@@ -153,5 +153,5 @@ Material:
     - _LiquidColor: {r: 0.7735849, g: 0.24448201, b: 0.24448201, a: 0}
     - _Rim_Color: {r: 0.32549024, g: 0.6839313, b: 1, a: 1}
     - _SpecColor: {r: 0.19999996, g: 0.19999996, b: 0.19999996, a: 1}
-    - _TopColor: {r: 0.11792451, g: 0.15222749, b: 1, a: 1}
+    - _TopColor: {r: 0.015208514, g: 0, b: 0.822786, a: 1}
   m_BuildTextureStacks: []

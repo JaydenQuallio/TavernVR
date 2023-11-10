@@ -20,7 +20,7 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: GreenLiquid
+  m_Name: WhiteLiquid
   m_Shader: {fileID: -6465566751694194690, guid: a871653a5bbe4ff4c8f308bd24b8ff56, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
@@ -136,22 +136,22 @@ Material:
     - _SrcBlend: 1
     - _SrcBlendAlpha: 1
     - _Surface: 0
-    - _WobbleX: -3.9644765e-10
+    - _WobbleX: 0
     - _WobbleX_1: 0
-    - _WobbleZ: -7.246755e-10
+    - _WobbleZ: -0
     - _WobbleZ_1: 0
     - _WorkflowMode: 1
     - _ZWrite: 1
     m_Colors:
     - _BaseColor: {r: 1, g: 1, b: 1, a: 1}
-    - _BottomColor: {r: 0, g: 0.76862746, b: 0.052411314, a: 1}
+    - _BottomColor: {r: 1, g: 1, b: 1, a: 1}
     - _Color: {r: 1, g: 1, b: 1, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
-    - _FillAmount: {r: -0.0013148785, g: -0.44628435, b: 0.000000014901161, a: 0}
+    - _FillAmount: {r: 0, g: -0.5, b: -0.00000011920929, a: 0}
     - _FillAmount_1: {r: 0, g: 0, b: 0, a: 0}
-    - _FoamColor: {r: 0.29613832, g: 0.9911022, b: 0.2874409, a: 1}
+    - _FoamColor: {r: 0.254717, g: 0.254717, b: 0.254717, a: 1}
     - _LiquidColor: {r: 0.7735849, g: 0.24448201, b: 0.24448201, a: 0}
-    - _Rim_Color: {r: 0, g: 0.81960785, b: 0.34390083, a: 1}
+    - _Rim_Color: {r: 1, g: 1, b: 1, a: 1}
     - _SpecColor: {r: 0.19999996, g: 0.19999996, b: 0.19999996, a: 1}
-    - _TopColor: {r: 0, g: 0.7681514, b: 0.052860655, a: 1}
+    - _TopColor: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []

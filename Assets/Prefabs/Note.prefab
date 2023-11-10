@@ -92,7 +92,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 36
+  m_fontSize: 26.55
   m_fontSizeBase: 36
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -190,7 +190,7 @@ Canvas:
   m_OverridePixelPerfect: 0
   m_SortingBucketNormalizedSize: 0
   m_VertexColorAlwaysGammaSpace: 0
-  m_AdditionalShaderChannelsFlag: 0
+  m_AdditionalShaderChannelsFlag: 25
   m_UpdateRectTransformForStandalone: 0
   m_SortingLayerID: 0
   m_SortingOrder: 0
@@ -418,13 +418,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   stickPoint: {fileID: 6134666027915469690}
   rb: {fileID: 2743446722914134599}
+  noteText: {fileID: 1317795672462030758}
+  order: {fileID: 11400000, guid: a7623da400198c544a21463c51cd4aef, type: 2}
   avoidLayer:
     serializedVersion: 2
     m_Bits: 1356
-  notesParent: {fileID: 0}
-  order: {fileID: 11400000, guid: a7623da400198c544a21463c51cd4aef, type: 2}
-  tmp: {fileID: 1317795672462030758}
-  drinkValues: {x: 0, y: 0, z: 0}
   patron: {fileID: 0}
 --- !u!65 &3770425472810696643
 BoxCollider:
