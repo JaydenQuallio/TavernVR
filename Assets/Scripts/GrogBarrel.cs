@@ -7,24 +7,20 @@ public class GrogBarrel : MonoBehaviour
     private Dictionary<GameObject, IGrogInterface> grogsDictionary = new();
 
     [TabGroup("Drink Settings")]
-    [SerializeField]
-    private DrinkTypes drinkType, drinkLook;
+    [SerializeField] DrinkTypes drinkType, drinkLook;
 
     [TabGroup("Particle Systems")]
-    [SerializeField]
-    private ParticleSystem splashPart, carbonationPart, foamPart;
+    [SerializeField] ParticleSystem splashPart, carbonationPart, foamPart;
 
     [BoxGroup("References")]
-    [SerializeField]
-    private GameObject spout, ParticleParent;
+    [SerializeField] GameObject spout, ParticleParent;
     
     [BoxGroup("References")]
     [SerializeField]
     private LineRenderer pourRenderer;
 
     [BoxGroup("References")]
-    [SerializeField]
-    private HingeJoint lever;
+    [SerializeField] HingeJoint lever;
 
     private GameObject currentGrogObject;
 
@@ -35,19 +31,20 @@ public class GrogBarrel : MonoBehaviour
     private bool isPlaying;
 
     [BoxGroup("Parameters")]
-    [SerializeField]
-    private float amplitude = 0.003f, waveFreq = 4.5f, movementSpeed = 10.35f;
+    [SerializeField] float amplitude = 0.003f, waveFreq = 4.5f, movementSpeed = 10.35f;
      
     [BoxGroup("Parameters")]
-    [SerializeField]
-    private int points = 50;
+    [SerializeField] int points = 50;
 
     private AnimationCurve curve = new();
 
-    private bool pourLiquid = false;
+    private bool pourLiquid = false, testLiquid = false;
 
     private void Awake()
     {
+        if (Application.isEditor)
+            testLiquid = true;
+
         references = References.instance;
     }
 
@@ -144,7 +141,7 @@ public class GrogBarrel : MonoBehaviour
         }
     }
 
-    [Button("TestLiquid")]
+    [Button("TestLiquid"), ShowIf("testLiquid")]
     private void TestLiquidEditor()
     {
         pourLiquid = !pourLiquid;
