@@ -185,7 +185,7 @@ MeshFilter:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1844614511297417948}
-  m_Mesh: {fileID: 6239881831769578202, guid: 2de3c0203121796489c01a52fc581faf, type: 3}
+  m_Mesh: {fileID: -5768362362603854702, guid: 2de3c0203121796489c01a52fc581faf, type: 3}
 --- !u!23 &7965332635212783219
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -206,7 +206,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: -4973734387028869240, guid: 2de3c0203121796489c01a52fc581faf, type: 3}
+  - {fileID: 2100000, guid: 60f2725ec4195bc4a9e8307e18e5eb38, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -15126,7 +15126,7 @@ MeshFilter:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8417514195565553064}
-  m_Mesh: {fileID: -5053925668127403250, guid: 2de3c0203121796489c01a52fc581faf, type: 3}
+  m_Mesh: {fileID: -211007548206913942, guid: 2de3c0203121796489c01a52fc581faf, type: 3}
 --- !u!23 &5352943195809142156
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -15147,7 +15147,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 31321ba15b8f8eb4c954353edc038b1d, type: 2}
+  - {fileID: 2100000, guid: 60f2725ec4195bc4a9e8307e18e5eb38, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -15188,8 +15188,8 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 0.00014069096, y: 0.00034167353, z: 0.0023961691}
-  m_Center: {x: -0.000009793301, y: 9.481209e-10, z: 0.0011763917}
+  m_Size: {x: 0.00014069096, y: 0.00034167353, z: 0.0017994395}
+  m_Center: {x: -0.000009791933, y: 9.643999e-10, z: 0.00087802915}
 --- !u!54 &4635738777835010530
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -15215,7 +15215,7 @@ Rigidbody:
   m_UseGravity: 0
   m_IsKinematic: 1
   m_Interpolate: 0
-  m_Constraints: 0
+  m_Constraints: 96
   m_CollisionDetection: 0
 --- !u!59 &2539851141061686652
 HingeJoint:
@@ -15229,7 +15229,7 @@ HingeJoint:
   m_Anchor: {x: 0, y: 0, z: 0}
   m_Axis: {x: 0, y: -1, z: 0}
   m_AutoConfigureConnectedAnchor: 1
-  m_ConnectedAnchor: {x: -109.19884, y: -25.982523, z: -80.62245}
+  m_ConnectedAnchor: {x: 0.8021829, y: 1.1319726, z: 2.86435}
   serializedVersion: 2
   m_UseSpring: 0
   m_Spring:

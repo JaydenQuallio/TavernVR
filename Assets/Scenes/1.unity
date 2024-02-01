@@ -4829,7 +4829,7 @@ GameObject:
   - component: {fileID: 1294851391}
   - component: {fileID: 1294851390}
   - component: {fileID: 1294851389}
-  m_Layer: 2
+  m_Layer: 0
   m_Name: Cube (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -7028,6 +7028,10 @@ PrefabInstance:
       propertyPath: m_Materials.Array.data[0]
       value: 
       objectReference: {fileID: 2100000, guid: 60f2725ec4195bc4a9e8307e18e5eb38, type: 2}
+    - target: {fileID: 8485672184764915112, guid: 59469105eac7b07479d0012d81cddeaa, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

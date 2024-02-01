@@ -38,13 +38,10 @@ public class GrogBarrel : MonoBehaviour
 
     private AnimationCurve curve = new();
 
-    private bool pourLiquid = false, testLiquid = false;
+    private bool pourLiquid = false;
 
     private void Awake()
     {
-        if (Application.isEditor)
-            testLiquid = true;
-
         references = References.instance;
     }
 
@@ -87,7 +84,7 @@ public class GrogBarrel : MonoBehaviour
     {
         RaycastHit hit;
 
-        if (Physics.Raycast(spout.transform.position, transform.TransformDirection(Vector3.down), out hit, 1000f))
+        if (Physics.Raycast(spout.transform.position, Vector3.down, out hit, 1000f))
         {
             DrawLineSine(hit.point);
 
@@ -141,7 +138,7 @@ public class GrogBarrel : MonoBehaviour
         }
     }
 
-    [Button("TestLiquid"), ShowIf("testLiquid")]
+    [Button("TestLiquid"), HideInInspector]
     private void TestLiquidEditor()
     {
         pourLiquid = !pourLiquid;
