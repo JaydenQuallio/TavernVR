@@ -7093,6 +7093,10 @@ PrefabInstance:
       propertyPath: serializationData.Prefab
       value: 
       objectReference: {fileID: 8804876092153488282, guid: aca120b112eb804468d09accc2ed186f, type: 3}
+    - target: {fileID: 8932685814787237196, guid: aca120b112eb804468d09accc2ed186f, type: 3}
+      propertyPath: MinDistance
+      value: 0.6779077
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

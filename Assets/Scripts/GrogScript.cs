@@ -21,6 +21,9 @@ public class GrogScript : SerializedMonoBehaviour, IGrogInterface
     [SerializeField]
     private ContainerTypes container;
 
+    [SerializeField]
+    private AudioSource audioSource;
+
     private bool hasIntialColor = false, hasBeenTouched = false;
 
     private Material tempMat = null;
@@ -53,6 +56,11 @@ public class GrogScript : SerializedMonoBehaviour, IGrogInterface
             EmptyGrog(emptyAmount * Time.fixedDeltaTime);
             Debug.Log("Object tilted more than 90 degrs!");
         }
+    }
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        audioSource.Play();
     }
 
     public void FillGrog(DrinkTypes drinkType, float fillAmount)
