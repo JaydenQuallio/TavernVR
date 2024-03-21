@@ -23,7 +23,6 @@ Material:
   - _OUTLINESPACE_SCREEN
   - _TEXTUREBLENDINGMODE_MULTIPLY
   - _UNITYSHADOWMODE_NONE
-  - _USEGLINT_ON
   - _USESHADOWS_ON
   - _USESPECULAR_ON
   m_LightmapFlags: 4
@@ -253,8 +252,8 @@ Material:
     - _Space: 1
     - _SpecularEnabled: 1
     - _SpecularHighlights: 1
-    - _SpecularRamp: 0
-    - _SpecularRampOffset: 0.93
+    - _SpecularRamp: 0.141
+    - _SpecularRampOffset: 0.981
     - _SrcBlend: 1
     - _SrcBlendAlpha: 1
     - _Surface: 0

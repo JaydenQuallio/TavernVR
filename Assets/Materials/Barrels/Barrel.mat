@@ -252,7 +252,7 @@ Material:
     - _Space: 1
     - _SpecularEnabled: 0
     - _SpecularHighlights: 1
-    - _SpecularRamp: 0
+    - _SpecularRamp: 0.112
     - _SpecularRampOffset: 0.93
     - _SrcBlend: 1
     - _SrcBlendAlpha: 1

@@ -15,12 +15,13 @@ TagManager:
   - Ground
   - Water
   - UI
-  - Hands
+  - 
   - Environment
   - Player
   - Order
   - Note
   - Drink
+  - TEXT
   - 
   - 
   - 
@@ -36,8 +37,7 @@ TagManager:
   - 
   - 
   - 
-  - 
-  - 
+  - Hand
   - HandPlayer
   - Grabbable
   - Grabbing
