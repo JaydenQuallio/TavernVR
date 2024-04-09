@@ -27,7 +27,7 @@ Transform:
   m_GameObject: {fileID: 9949499018390960}
   serializedVersion: 2
   m_LocalRotation: {x: 0.89712375, y: 0.18916367, z: 0.00000013783574, w: 0.3992319}
-  m_LocalPosition: {x: 1.35, y: 0.9, z: -0.029000282}
+  m_LocalPosition: {x: 0.053, y: 0.671, z: -0.029000282}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -44,14 +44,14 @@ Light:
   serializedVersion: 10
   m_Type: 2
   m_Shape: 0
-  m_Color: {r: 0.9339623, g: 0.50830334, b: 0.12775902, a: 1}
-  m_Intensity: 2.02
-  m_Range: 5
+  m_Color: {r: 1, g: 0.7503931, b: 0.4009434, a: 1}
+  m_Intensity: 5.07
+  m_Range: 20
   m_SpotAngle: 30
   m_InnerSpotAngle: 21.80208
   m_CookieSize: 10
   m_Shadows:
-    m_Type: 0
+    m_Type: 2
     m_Resolution: -1
     m_CustomResolution: -1
     m_Strength: 1
@@ -84,7 +84,7 @@ Light:
     serializedVersion: 2
     m_Bits: 4294967295
   m_RenderingLayerMask: 1
-  m_Lightmapping: 2
+  m_Lightmapping: 1
   m_LightShadowCasterMode: 0
   m_AreaSize: {x: 1, y: 1}
   m_BounceIntensity: 0
@@ -109,7 +109,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Version: 3
   m_UsePipelineSettings: 1
-  m_AdditionalLightsShadowResolutionTier: 2
+  m_AdditionalLightsShadowResolutionTier: 1
   m_LightLayerMask: 1
   m_RenderingLayers: 1
   m_CustomShadowLayers: 0
@@ -5125,9 +5125,9 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: -2471313738896675422, guid: 18987581516770647aa1df5fbe9ece7e, type: 3}
-  - {fileID: -1444460858095362738, guid: 18987581516770647aa1df5fbe9ece7e, type: 3}
-  - {fileID: -876546973899608171, guid: 18987581516770647aa1df5fbe9ece7e, type: 3}
+  - {fileID: 2100000, guid: 0757f046b307df44688f9daca694890e, type: 2}
+  - {fileID: 2100000, guid: 3155cfa0cfb4ecd43be08f89e70851e0, type: 2}
+  - {fileID: 2100000, guid: 046f250728419644e997828e0f6ac226, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0

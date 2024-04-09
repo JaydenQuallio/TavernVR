@@ -21,10 +21,9 @@ Material:
   - _GRADIENTSPACE_WORLD
   - _MULTIPLYBYLIGHTCOLOR_ON
   - _OUTLINESPACE_SCREEN
+  - _POSTERIZELIGHT_ON
   - _TEXTUREBLENDINGMODE_MULTIPLY
   - _UNITYSHADOWMODE_NONE
-  - _USESHADOWS_ON
-  - _USESPECULAR_ON
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
@@ -229,7 +228,7 @@ Material:
     - _OverrideLightmapDir: 0
     - _Parallax: 0.005
     - _PosterizeColors: 0
-    - _PosterizeLight: 0
+    - _PosterizeLight: 1
     - _PuddleScale: 0.4
     - _QueueControl: -1
     - _QueueOffset: 0
@@ -291,8 +290,8 @@ Material:
     - _UseModifiedNormals: 0
     - _UseRimLighting: 0
     - _UseScreenNoise: 0
-    - _UseShadows: 1
-    - _UseSpecular: 1
+    - _UseShadows: 0
+    - _UseSpecular: 0
     - _UseSway: 0
     - _UseSwirl: 0
     - _UseTriplanar: 0

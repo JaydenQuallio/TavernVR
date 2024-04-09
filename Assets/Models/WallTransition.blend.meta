@@ -3,7 +3,22 @@ guid: 0af96c29c554b7747a14b4c965cc40f4
 ModelImporter:
   serializedVersion: 22200
   internalIDToNameTable: []
-  externalObjects: {}
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Mortar
+    second: {fileID: 2100000, guid: 3b33d74fe888c4f488cfe1985557182d, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Pillar
+    second: {fileID: 2100000, guid: ac6509edc596e4545858bb143dd2cf37, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Wall
+    second: {fileID: 2100000, guid: 50c4fa42c18119247b76234e0cb19f81, type: 2}
   materials:
     materialImportMode: 2
     materialName: 0
@@ -48,7 +63,7 @@ ModelImporter:
     nodeNameCollisionStrategy: 1
     fileIdsGeneration: 2
     swapUVChannels: 0
-    generateSecondaryUV: 0
+    generateSecondaryUV: 1
     useFileUnits: 1
     keepQuads: 0
     weldVertices: 1

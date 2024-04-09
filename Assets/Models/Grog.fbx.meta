@@ -7,8 +7,13 @@ ModelImporter:
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
+      name: Metal
+    second: {fileID: 2100000, guid: 60f2725ec4195bc4a9e8307e18e5eb38, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
       name: Wood
-    second: {fileID: 2100000, guid: 43f1c3490e4a6c84c951624e6a31162e, type: 2}
+    second: {fileID: 2100000, guid: 3a65b219a79a0b14ab31dc30908af545, type: 2}
   materials:
     materialImportMode: 2
     materialName: 0
@@ -95,7 +100,7 @@ ModelImporter:
     armStretch: 0.05
     legStretch: 0.05
     feetSpacing: 0
-    globalScale: 0.0018000001
+    globalScale: 0.18
     rootMotionBoneName: 
     hasTranslationDoF: 0
     hasExtraRoot: 0
