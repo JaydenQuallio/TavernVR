@@ -101,6 +101,7 @@ public class PatronAI : MonoBehaviour, IPatronInterface
 
 	private void Wander()
 	{
+		
 		if (timeToWait < 0f)
 		{
 			if (!isInPlace && currentState == PlayerStates.None)
