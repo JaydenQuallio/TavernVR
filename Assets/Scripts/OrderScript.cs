@@ -17,7 +17,7 @@ public class OrderScript : MonoBehaviour, IOrderInterface
 
     [TabGroup("Components")]
     [SerializeField]
-    private TextMeshProUGUI noteText;
+    private TextMeshPro noteText;
 
     [TabGroup("NoteSettings")]
     [SerializeField]

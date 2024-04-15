@@ -14,7 +14,7 @@ public class GrogBarrel : MonoBehaviour
 
 	[BoxGroup("References")]
 	[SerializeField] GameObject spout, ParticleParent;
-	
+
 	[BoxGroup("References")]
 	[SerializeField]
 	private LineRenderer pourRenderer;
@@ -32,7 +32,7 @@ public class GrogBarrel : MonoBehaviour
 
 	[BoxGroup("Parameters")]
 	[SerializeField] float amplitude = 0.003f, waveFreq = 4.5f, movementSpeed = 10.35f;
-	 
+
 	[BoxGroup("Parameters")]
 	[SerializeField] int points = 50;
 
@@ -100,13 +100,11 @@ public class GrogBarrel : MonoBehaviour
 			FillDrink(hit.collider);
 		}
 	}
-
 	private void FillDrink(Collider other)
 	{
 		if (currentGrogObject == other.gameObject)
 		{
-			float tempAmount = Mathf.Lerp(.05f, .1f, lever.angle / lever.limits.min);
-
+			float tempAmount = Mathf.Lerp(.05f, .2f, lever.angle / lever.limits.max);
 			currentGrog.FillGrog(drinkType, tempAmount * Time.fixedDeltaTime);
 		}
 		else
@@ -150,10 +148,10 @@ public class GrogBarrel : MonoBehaviour
 		grogsDictionary = dictionary;
 	}
 
-/// <summary>
-/// Pass in true or false to either make the animations play true or stop false
-/// </summary>
-/// <param name="play">Start or stop animations for spout</param>
+	/// <summary>
+	/// Pass in true or false to either make the animations play true or stop false
+	/// </summary>
+	/// <param name="play">Start or stop animations for spout</param>
 	private void StartStopAnimations(bool play)
 	{
 		if (play)
