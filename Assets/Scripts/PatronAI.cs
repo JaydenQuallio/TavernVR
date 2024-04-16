@@ -23,6 +23,9 @@ public class PatronAI : MonoBehaviour, IPatronInterface
 	[SerializeField]
 	private Animator anim;
 
+	[SerializeField]
+	private SoundScript voiceSounds;
+
 	private PatronManager patronManager;
 
 	private bool isInPlace = false;
@@ -167,6 +170,7 @@ public class PatronAI : MonoBehaviour, IPatronInterface
 	{
 		if (currentState == PlayerStates.OrderWait && seeker.IsDone() && nextPos < 0)
 		{
+			voiceSounds.PlayAudioSource();
 			SetOrderState(PlayerStates.RecieveWait);
 			MoveTo(patronManager.GenerateSpot());
 		}

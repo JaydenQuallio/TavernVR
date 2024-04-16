@@ -7,157 +7,170 @@ using Sirenix.OdinInspector;
 
 public class OrderScript : MonoBehaviour, IOrderInterface
 {
-    [TabGroup("Components")]
-    [SerializeField]
-    private Transform stickPoint;
+	[TabGroup("Components")]
+	[SerializeField]
+	private Transform stickPoint;
 
-    [TabGroup("Components")]
-    [SerializeField]
-    private Rigidbody rb;
+	[TabGroup("Components")]
+	[SerializeField]
+	private GameObject tutorialText;
 
-    [TabGroup("Components")]
-    [SerializeField]
-    private TextMeshPro noteText;
+	[TabGroup("Components")]
+	[SerializeField]
+	private Rigidbody rb;
 
-    [TabGroup("NoteSettings")]
-    [SerializeField]
-    private OrderScriptable order;
+	[TabGroup("Components")]
+	[SerializeField]
+	private TextMeshPro noteText;
 
-    [TabGroup("NoteSettings")]
-    [SerializeField]
-    private LayerMask avoidLayer;
+	[TabGroup("NoteSettings")]
+	[SerializeField]
+	private OrderScriptable order;
 
-    [BoxGroup("Parent")]
-    [SerializeField]
-    private PatronAI patron;
+	[TabGroup("NoteSettings")]
+	[SerializeField]
+	private LayerMask avoidLayer;
 
-    [ShowInInspector]
-    private List<float> drinkValues = new();
+	[TabGroup("NoteSettings")]
+	[SerializeField]
+	private bool TutorialSetting = false;
 
-    private int orderNum = 0;
+	[BoxGroup("Parent")]
+	[SerializeField]
+	private PatronAI patron;
 
-    private IGrogInterface drinks;
+	[ShowInInspector]
+	private List<float> drinkValues = new();
 
-    private StringBuilder sb = new();
+	private int orderNum = 0;
 
-    private bool isPickedUp = false, hasBeenTouched = false;
+	private IGrogInterface drinks;
 
-    public OrderScriptable GenerateOrder()
-    {
-        return DrinksManager.Instance.GetOrder(Random.Range(0, DrinksManager.Instance.DrinkCount));
-    }
+	private StringBuilder sb = new();
 
-    public void SetOrder(int orderNumber, OrderScriptable orderScriptable)
-    {
-        orderNum = orderNumber;
-        order = orderScriptable;
+	private bool isPickedUp = false, hasBeenTouched = false;
 
-        sb.Append("Patron #").Append(orderNum).AppendLine("\n1 x ").Append(order.drinkName);
+	public OrderScriptable GenerateOrder()
+	{
+		return DrinksManager.Instance.GetOrder(Random.Range(0, DrinksManager.Instance.DrinkCount));
+	}
 
-        noteText.text = sb.ToString();
+	public void SetOrder(int orderNumber, OrderScriptable orderScriptable)
+	{
+		orderNum = orderNumber;
+		order = orderScriptable;
 
-        Debug.Log("Ordered");
-    }
+		sb.Append("Patron #").Append(orderNum).AppendLine("\n1 x ").Append(order.drinkName);
 
-    public void ClearOrder()
-    {
-        sb.Clear();
-        ClearDrinks();
-        hasBeenTouched = false;
-        isPickedUp = false;
-        drinkValues.Clear();
-    }
+		noteText.text = sb.ToString();
 
-    private void Update()
-    {
-        if (isPickedUp || !hasBeenTouched)
-            return;
+		Debug.Log("Ordered");
+	}
 
-        RaycastHit hit;
-        if (Physics.Raycast(stickPoint.transform.position, stickPoint.TransformDirection(Vector3.down), out hit, .035f, ~avoidLayer))
-        {
-            if (transform.parent != hit.transform)
-            {
-                transform.SetParent(hit.transform);
-                rb.isKinematic = true;
-                GetDrinks(hit.transform.gameObject);
-            }
-        }
-        else if(hasBeenTouched)
-        {
-            transform.SetParent(null);
-            rb.isKinematic = false;
-            drinks = null;
-        }
+	public void ClearOrder()
+	{
+		sb.Clear();
+		ClearDrinks();
+		hasBeenTouched = false;
+		isPickedUp = false;
+		drinkValues.Clear();
+	}
 
-        Debug.DrawRay(stickPoint.position, stickPoint.TransformDirection(Vector3.down), Color.red, .02f);
-    }
+	private void Update()
+	{
+		if (isPickedUp || !hasBeenTouched)
+			return;
 
-    [Button("Simulate Grab")]
-    private void TestGrab()
-    {
-        OnPickUp();
-        OnDropped();
-    }
+		RaycastHit hit;
+		if (Physics.Raycast(stickPoint.transform.position, stickPoint.TransformDirection(Vector3.down), out hit, .035f, ~avoidLayer))
+		{
+			if (transform.parent != hit.transform)
+			{
+				transform.SetParent(hit.transform);
+				
+				if (TutorialSetting)
+					tutorialText.SetActive(false);
+					
+				rb.isKinematic = true;
+				GetDrinks(hit.transform.gameObject);
+			}
+		}
+		else if (hasBeenTouched)
+		{
+			transform.SetParent(null);
+			rb.isKinematic = false;
+			drinks = null;
+		}
 
-    public void OnPickUp()
-    {
-        isPickedUp = true;
-        rb.isKinematic = false;
-        rb.useGravity = true;
+		Debug.DrawRay(stickPoint.position, stickPoint.TransformDirection(Vector3.down), Color.red, .02f);
+	}
 
-        if (!hasBeenTouched)
-        {
-            PatronManager.Instance.ProgressLine();
-            hasBeenTouched = true;
-        }
-    }
+	[Button("Simulate Grab")]
+	private void TestGrab()
+	{
+		OnPickUp();
+		OnDropped();
+	}
 
-    public void OnDropped()
-    {
-        rb.useGravity = true;
-        isPickedUp = false;
-    }
+	public void OnPickUp()
+	{
+		isPickedUp = true;
+		rb.isKinematic = false;
+		rb.useGravity = true;
 
-    public void GetDrinks(GameObject parents)
-    {
-        IGrogInterface tempInterface = parents.transform.GetComponent<IGrogInterface>();
+		if (!hasBeenTouched)
+		{
+			if (!TutorialSetting)
+				PatronManager.Instance.ProgressLine();
+			hasBeenTouched = true;
+		}
+	}
 
-        if (drinks == tempInterface)
-            return;
+	public void OnDropped()
+	{
+		rb.useGravity = true;
+		isPickedUp = false;
+	}
 
-        Debug.Log("adding drink");
+	public void GetDrinks(GameObject parents)
+	{
+		IGrogInterface tempInterface = parents.transform.GetComponent<IGrogInterface>();
 
-        if (parents.CompareTag("Drink"))
-        {
-            drinks = tempInterface;
+		if (drinks == tempInterface)
+			return;
 
-            drinkValues = tempInterface.GetAllDrinks();
-        }
-    }
+		Debug.Log("adding drink");
 
-    public void ClearDrinks()
-    {
-        drinks = null;
-    }
+		if (parents.CompareTag("Drink"))
+		{
+			drinks = tempInterface;
 
-    public void ChangePlayerState(PlayerStates state)
-    {
-        patron.SetOrderState(state);
-    }
+			drinkValues = tempInterface.GetAllDrinks();
+		}
+	}
 
-    public bool HasDrink() => drinks != null;
+	public void ClearDrinks()
+	{
+		drinks = null;
+	}
 
-    public float CompareDrink()
-    {
-        order.CalculateDrink(
-            drinks.GetDrink(DrinkTypes.RedPotion), 
-            drinks.GetDrink(DrinkTypes.GreenPotion), 
-            drinks.GetDrink(DrinkTypes.BluePotion), 
-            drinks.GetDrink(DrinkTypes.WhitePotion),
-            drinks.GetDrink(DrinkTypes.BlackPotion)
-            );
+	public void ChangePlayerState(PlayerStates state)
+	{
+		patron.SetOrderState(state);
+	}
 
-        return order.CompareDrink(drinks.GetFillAmount(), drinks.GetMaxAmount());
-    }
+	public bool HasDrink() => drinks != null;
+
+	public float CompareDrink()
+	{
+		order.CalculateDrink(
+			drinks.GetDrink(DrinkTypes.RedPotion),
+			drinks.GetDrink(DrinkTypes.GreenPotion),
+			drinks.GetDrink(DrinkTypes.BluePotion),
+			drinks.GetDrink(DrinkTypes.WhitePotion),
+			drinks.GetDrink(DrinkTypes.BlackPotion)
+			);
+
+		return order.CompareDrink(drinks.GetFillAmount(), drinks.GetMaxAmount());
+	}
 }
